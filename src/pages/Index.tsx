@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, DollarSign, PieChart, ArrowUpDown } from "lucide-react";
+import { PlusCircle, Wallet, TrendingUp, Receipt } from "lucide-react";
 import { useState } from "react";
 import { ExpenseChart } from "@/components/ExpenseChart";
 import { AddExpenseDialog } from "@/components/AddExpenseDialog";
@@ -28,76 +28,84 @@ const Index = () => {
   const totalExpenses = expenses.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto space-y-6 fade-in">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-900">Finance Tracker</h1>
-          <Button onClick={() => setIsAddExpenseOpen(true)}>
+    <div className="min-h-screen bg-[#F6F6F7]">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-[#1A1F2C]">Mon Budget</h1>
+            <p className="text-gray-500 mt-1">Gérez vos dépenses facilement</p>
+          </div>
+          <Button 
+            onClick={() => setIsAddExpenseOpen(true)}
+            className="bg-[#9b87f5] hover:bg-[#7E69AB] text-white shadow-lg"
+          >
             <PlusCircle className="mr-2 h-4 w-4" />
-            Add Expense
+            Ajouter une dépense
           </Button>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          <Card className="p-6">
+          <Card className="p-6 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] text-white">
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-primary/10 rounded-full">
-                <DollarSign className="h-6 w-6 text-primary" />
+              <div className="p-3 bg-white/20 rounded-full">
+                <Wallet className="h-6 w-6" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Total Expenses</p>
-                <h2 className="text-2xl font-bold">${totalExpenses.toFixed(2)}</h2>
+                <p className="text-sm font-medium text-white/80">Total Dépenses</p>
+                <h2 className="text-2xl font-bold">{totalExpenses.toFixed(2)} €</h2>
               </div>
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-6 bg-white">
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-secondary/10 rounded-full">
-                <PieChart className="h-6 w-6 text-secondary" />
+              <div className="p-3 bg-[#F2FCE2] rounded-full">
+                <TrendingUp className="h-6 w-6 text-[#6E59A5]" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Categories</p>
-                <h2 className="text-2xl font-bold">{new Set(expenses.map(e => e.category)).size}</h2>
+                <p className="text-sm font-medium text-gray-500">Catégories</p>
+                <h2 className="text-2xl font-bold text-[#1A1F2C]">
+                  {new Set(expenses.map(e => e.category)).size}
+                </h2>
               </div>
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-6 bg-white">
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-primary/10 rounded-full">
-                <ArrowUpDown className="h-6 w-6 text-primary" />
+              <div className="p-3 bg-[#E5DEFF] rounded-full">
+                <Receipt className="h-6 w-6 text-[#6E59A5]" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">Transactions</p>
-                <h2 className="text-2xl font-bold">{expenses.length}</h2>
+                <h2 className="text-2xl font-bold text-[#1A1F2C]">{expenses.length}</h2>
               </div>
             </div>
           </Card>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Expense Distribution</h3>
+          <Card className="p-6 bg-white">
+            <h3 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Distribution des dépenses</h3>
             <div className="h-[300px]">
               <ExpenseChart expenses={expenses} />
             </div>
           </Card>
 
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Recent Expenses</h3>
+          <Card className="p-6 bg-white">
+            <h3 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Dépenses récentes</h3>
             <div className="space-y-4">
               {expenses.slice(-5).reverse().map((expense) => (
-                <div key={expense.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={expense.id} className="flex items-center justify-between p-4 bg-[#F6F6F7] rounded-lg hover:bg-[#E5DEFF] transition-colors">
                   <div>
-                    <p className="font-medium">{expense.description}</p>
+                    <p className="font-medium text-[#1A1F2C]">{expense.description}</p>
                     <p className="text-sm text-gray-500">{expense.category}</p>
                   </div>
-                  <p className="font-semibold text-primary">${expense.amount.toFixed(2)}</p>
+                  <p className="font-semibold text-[#6E59A5]">{expense.amount.toFixed(2)} €</p>
                 </div>
               ))}
               {expenses.length === 0 && (
-                <p className="text-center text-gray-500">No expenses yet</p>
+                <p className="text-center text-gray-500 py-8">Aucune dépense pour le moment</p>
               )}
             </div>
           </Card>

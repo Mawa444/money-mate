@@ -1,7 +1,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import type { Expense } from "@/pages/Index";
 
-const COLORS = ["#1A237E", "#00C853", "#FF6D00", "#D81B60", "#6200EA"];
+const COLORS = ["#9b87f5", "#7E69AB", "#6E59A5", "#D6BCFA", "#E5DEFF"];
 
 export const ExpenseChart = ({ expenses }: { expenses: Expense[] }) => {
   const categoryTotals = expenses.reduce((acc, curr) => {
@@ -17,7 +17,7 @@ export const ExpenseChart = ({ expenses }: { expenses: Expense[] }) => {
   if (data.length === 0) {
     return (
       <div className="h-full flex items-center justify-center text-gray-500">
-        No data to display
+        Aucune donnée à afficher
       </div>
     );
   }
@@ -38,7 +38,7 @@ export const ExpenseChart = ({ expenses }: { expenses: Expense[] }) => {
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
-        <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
+        <Tooltip formatter={(value: number) => `${value.toFixed(2)} €`} />
         <Legend />
       </PieChart>
     </ResponsiveContainer>

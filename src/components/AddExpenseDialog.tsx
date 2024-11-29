@@ -7,12 +7,12 @@ import { useState } from "react";
 import type { Expense } from "@/pages/Index";
 
 const CATEGORIES = [
-  "Food & Dining",
-  "Transportation",
+  "Alimentation",
+  "Transport",
   "Shopping",
-  "Entertainment",
-  "Bills & Utilities",
-  "Other",
+  "Loisirs",
+  "Factures",
+  "Autres",
 ];
 
 type AddExpenseDialogProps = {
@@ -49,13 +49,13 @@ export const AddExpenseDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
-          <DialogTitle>Add New Expense</DialogTitle>
+          <DialogTitle className="text-[#1A1F2C]">Nouvelle dépense</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="amount">Amount</Label>
+            <Label htmlFor="amount">Montant</Label>
             <Input
               id="amount"
               type="number"
@@ -64,23 +64,25 @@ export const AddExpenseDialog = ({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
+              className="border-gray-200 focus:border-[#9b87f5] focus:ring-[#9b87f5]"
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Input
               id="description"
-              placeholder="Enter description"
+              placeholder="Entrez une description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
+              className="border-gray-200 focus:border-[#9b87f5] focus:ring-[#9b87f5]"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="category">Category</Label>
+            <Label htmlFor="category">Catégorie</Label>
             <Select value={category} onValueChange={setCategory} required>
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
+              <SelectTrigger className="border-gray-200">
+                <SelectValue placeholder="Sélectionnez une catégorie" />
               </SelectTrigger>
               <SelectContent>
                 {CATEGORIES.map((cat) => (
@@ -91,7 +93,12 @@ export const AddExpenseDialog = ({
               </SelectContent>
             </Select>
           </div>
-          <Button type="submit" className="w-full">Add Expense</Button>
+          <Button 
+            type="submit" 
+            className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white"
+          >
+            Ajouter la dépense
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
