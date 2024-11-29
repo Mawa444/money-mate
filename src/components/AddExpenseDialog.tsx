@@ -49,9 +49,9 @@ export const AddExpenseDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-white">
+      <DialogContent className="sm:max-w-[425px] bg-background">
         <DialogHeader>
-          <DialogTitle className="text-[#1A1F2C]">Nouvelle dépense</DialogTitle>
+          <DialogTitle className="text-foreground">Nouvelle dépense</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -64,7 +64,7 @@ export const AddExpenseDialog = ({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
-              className="border-gray-200 focus:border-[#9b87f5] focus:ring-[#9b87f5]"
+              className="border-input focus:border-primary focus:ring-primary"
             />
           </div>
           <div className="space-y-2">
@@ -75,13 +75,13 @@ export const AddExpenseDialog = ({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
-              className="border-gray-200 focus:border-[#9b87f5] focus:ring-[#9b87f5]"
+              className="border-input focus:border-primary focus:ring-primary"
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="category">Catégorie</Label>
             <Select value={category} onValueChange={setCategory} required>
-              <SelectTrigger className="border-gray-200">
+              <SelectTrigger className="border-input">
                 <SelectValue placeholder="Sélectionnez une catégorie" />
               </SelectTrigger>
               <SelectContent>
@@ -95,7 +95,7 @@ export const AddExpenseDialog = ({
           </div>
           <Button 
             type="submit" 
-            className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             Ajouter la dépense
           </Button>

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ExpenseChart } from "@/components/ExpenseChart";
 import { AddExpenseDialog } from "@/components/AddExpenseDialog";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useToast } from "@/components/ui/use-toast";
 
 export type Expense = {
   id: string;
@@ -17,6 +18,7 @@ export type Expense = {
 const Index = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+  const { toast } = useToast();
 
   const addExpense = (expense: Omit<Expense, "id">) => {
     const newExpense = {
@@ -24,6 +26,10 @@ const Index = () => {
       id: Math.random().toString(36).substring(7),
     };
     setExpenses([...expenses, newExpense]);
+    toast({
+      title: "Dépense ajoutée",
+      description: `${expense.amount}€ ajoutés pour ${expense.description}`,
+    });
   };
 
   const totalExpenses = expenses.reduce((acc, curr) => acc + curr.amount, 0);
@@ -61,55 +67,55 @@ const Index = () => {
             </div>
           </Card>
 
-          <Card className="p-6 bg-white">
+          <Card className="p-6 bg-white dark:bg-gray-800">
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-[#F2FCE2] rounded-full">
+              <div className="p-3 bg-[#F2FCE2] dark:bg-[#1A1F2C] rounded-full">
                 <TrendingUp className="h-6 w-6 text-[#6E59A5]" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Catégories</p>
-                <h2 className="text-2xl font-bold text-[#1A1F2C]">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Catégories</p>
+                <h2 className="text-2xl font-bold text-[#1A1F2C] dark:text-white">
                   {new Set(expenses.map(e => e.category)).size}
                 </h2>
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white">
+          <Card className="p-6 bg-white dark:bg-gray-800">
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-[#E5DEFF] rounded-full">
+              <div className="p-3 bg-[#E5DEFF] dark:bg-[#1A1F2C] rounded-full">
                 <Receipt className="h-6 w-6 text-[#6E59A5]" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Transactions</p>
-                <h2 className="text-2xl font-bold text-[#1A1F2C]">{expenses.length}</h2>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Transactions</p>
+                <h2 className="text-2xl font-bold text-[#1A1F2C] dark:text-white">{expenses.length}</h2>
               </div>
             </div>
           </Card>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <Card className="p-6 bg-white">
-            <h3 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Distribution des dépenses</h3>
+          <Card className="p-6 bg-white dark:bg-gray-800">
+            <h3 className="text-lg font-semibold mb-4 text-[#1A1F2C] dark:text-white">Distribution des dépenses</h3>
             <div className="h-[300px]">
               <ExpenseChart expenses={expenses} />
             </div>
           </Card>
 
-          <Card className="p-6 bg-white">
-            <h3 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Dépenses récentes</h3>
+          <Card className="p-6 bg-white dark:bg-gray-800">
+            <h3 className="text-lg font-semibold mb-4 text-[#1A1F2C] dark:text-white">Dépenses récentes</h3>
             <div className="space-y-4">
               {expenses.slice(-5).reverse().map((expense) => (
-                <div key={expense.id} className="flex items-center justify-between p-4 bg-[#F6F6F7] rounded-lg hover:bg-[#E5DEFF] transition-colors">
+                <div key={expense.id} className="flex items-center justify-between p-4 bg-[#F6F6F7] dark:bg-gray-700 rounded-lg hover:bg-[#E5DEFF] dark:hover:bg-gray-600 transition-colors">
                   <div>
-                    <p className="font-medium text-[#1A1F2C]">{expense.description}</p>
-                    <p className="text-sm text-gray-500">{expense.category}</p>
+                    <p className="font-medium text-[#1A1F2C] dark:text-white">{expense.description}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{expense.category}</p>
                   </div>
-                  <p className="font-semibold text-[#6E59A5]">{expense.amount.toFixed(2)} €</p>
+                  <p className="font-semibold text-[#6E59A5] dark:text-[#9b87f5]">{expense.amount.toFixed(2)} €</p>
                 </div>
               ))}
               {expenses.length === 0 && (
-                <p className="text-center text-gray-500 py-8">Aucune dépense pour le moment</p>
+                <p className="text-center text-gray-500 dark:text-gray-400 py-8">Aucune dépense pour le moment</p>
               )}
             </div>
           </Card>

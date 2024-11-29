@@ -16,7 +16,7 @@ export const ExpenseChart = ({ expenses }: { expenses: Expense[] }) => {
 
   if (data.length === 0) {
     return (
-      <div className="h-full flex items-center justify-center text-gray-500">
+      <div className="h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
         Aucune donnée à afficher
       </div>
     );
