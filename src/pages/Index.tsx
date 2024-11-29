@@ -4,6 +4,7 @@ import { PlusCircle, Wallet, TrendingUp, Receipt } from "lucide-react";
 import { useState } from "react";
 import { ExpenseChart } from "@/components/ExpenseChart";
 import { AddExpenseDialog } from "@/components/AddExpenseDialog";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export type Expense = {
   id: string;
@@ -28,24 +29,27 @@ const Index = () => {
   const totalExpenses = expenses.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
-    <div className="min-h-screen bg-[#F6F6F7]">
+    <div className="min-h-screen bg-background transition-colors duration-300">
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-[#1A1F2C]">Mon Budget</h1>
-            <p className="text-gray-500 mt-1">Gérez vos dépenses facilement</p>
+            <h1 className="text-3xl font-bold text-foreground">Mon Budget</h1>
+            <p className="text-muted-foreground mt-1">Gérez vos dépenses facilement</p>
           </div>
-          <Button 
-            onClick={() => setIsAddExpenseOpen(true)}
-            className="bg-[#9b87f5] hover:bg-[#7E69AB] text-white shadow-lg"
-          >
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Ajouter une dépense
-          </Button>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <Button 
+              onClick={() => setIsAddExpenseOpen(true)}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg"
+            >
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Ajouter une dépense
+            </Button>
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          <Card className="p-6 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] text-white">
+          <Card className="p-6 bg-gradient-to-br from-[#F97316] to-[#3B82F6] text-white">
             <div className="flex items-center space-x-4">
               <div className="p-3 bg-white/20 rounded-full">
                 <Wallet className="h-6 w-6" />
