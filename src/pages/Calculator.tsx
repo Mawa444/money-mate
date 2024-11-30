@@ -6,10 +6,18 @@ import { Calculator as CalculatorIcon, RefreshCcw } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 
+type CurrencyCode = "FCFA" | "EUR" | "USD";
+
+interface ExchangeRates {
+  [key: string]: {
+    [key: string]: number;
+  };
+}
+
 const Calculator = () => {
   const [display, setDisplay] = useState("");
-  const [fromCurrency, setFromCurrency] = useState("FCFA");
-  const [toCurrency, setToCurrency] = useState("EUR");
+  const [fromCurrency, setFromCurrency] = useState<CurrencyCode>("FCFA");
+  const [toCurrency, setToCurrency] = useState<CurrencyCode>("EUR");
   const [amount, setAmount] = useState("");
 
   const handleNumber = (num: string) => {
@@ -43,8 +51,7 @@ const Calculator = () => {
   };
 
   const handleConversion = () => {
-    // Simulation de conversion (à remplacer par une vraie API)
-    const rates = {
+    const rates: ExchangeRates = {
       FCFA: { EUR: 0.0015, USD: 0.0017 },
       EUR: { FCFA: 655.96, USD: 1.09 },
       USD: { FCFA: 601.80, EUR: 0.92 },
@@ -59,7 +66,7 @@ const Calculator = () => {
       return;
     }
 
-    const rate = rates[fromCurrency as keyof typeof rates][toCurrency as keyof typeof rates[typeof fromCurrency]];
+    const rate = rates[fromCurrency][toCurrency];
     const result = parseFloat(amount) * rate;
 
     toast({
