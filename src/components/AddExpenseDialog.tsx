@@ -4,14 +4,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import type { Expense } from "@/pages/Index";
 
 const CATEGORIES = [
-  "Alimentation",
+  "Logement",
   "Transport",
-  "Shopping",
+  "Alimentation",
   "Loisirs",
   "Factures",
+  "Santé",
+  "Éducation",
+  "Épargne",
   "Autres",
 ];
 
@@ -53,7 +57,13 @@ export const AddExpenseDialog = ({
         <DialogHeader>
           <DialogTitle className="text-foreground">Nouvelle dépense</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <motion.form 
+          onSubmit={handleSubmit} 
+          className="space-y-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           <div className="space-y-2">
             <Label htmlFor="amount">Montant</Label>
             <Input
@@ -93,13 +103,18 @@ export const AddExpenseDialog = ({
               </SelectContent>
             </Select>
           </div>
-          <Button 
-            type="submit" 
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            Ajouter la dépense
-          </Button>
-        </form>
+            <Button 
+              type="submit" 
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              Ajouter la dépense
+            </Button>
+          </motion.div>
+        </motion.form>
       </DialogContent>
     </Dialog>
   );
