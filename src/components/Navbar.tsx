@@ -1,12 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, Wallet, Receipt, UserCircle, Calculator } from "lucide-react";
+import { Home, Wallet, Receipt, UserCircle, Calculator, History } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 
 const navItems = [
-  { path: "/", icon: Home, label: "Accueil" },
+  { path: "/", icon: Home, label: "Tableau de bord" },
   { path: "/budget", icon: Wallet, label: "Budget" },
   { path: "/transactions", icon: Receipt, label: "Transactions" },
+  { path: "/history", icon: History, label: "Historique" },
   { path: "/profile", icon: UserCircle, label: "Profil" },
   { path: "/calculator", icon: Calculator, label: "Calculatrice" },
 ];
@@ -18,12 +19,13 @@ export const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-2">
+            <span className="text-xl font-bold text-primary mr-8">Bzen</span>
             {navItems.map(({ path, icon: Icon, label }) => (
               <Link
                 key={path}
                 to={path}
-                className="relative flex flex-col items-center text-sm"
+                className="relative flex flex-col items-center text-sm px-3 py-2 rounded-md hover:bg-accent"
               >
                 <motion.div
                   whileHover={{ scale: 1.1 }}

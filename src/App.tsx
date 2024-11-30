@@ -10,6 +10,7 @@ import Transactions from "./pages/Transactions";
 import Profile from "./pages/Profile";
 import Calculator from "./pages/Calculator";
 import Layout from "./components/Layout";
+import History from "./pages/History";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
               <Route path="/transactions" element={<Transactions />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/calculator" element={<Calculator />} />
+              <Route path="/history" element={<History />} />
             </Route>
           </Routes>
         </BrowserRouter>
