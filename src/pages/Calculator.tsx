@@ -75,6 +75,13 @@ const Calculator = () => {
     });
   };
 
+  const handleCurrencyChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    setter: (value: CurrencyCode) => void
+  ) => {
+    setter(e.target.value as CurrencyCode);
+  };
+
   return (
     <div className="space-y-6 p-4 md:p-6">
       <motion.div
@@ -176,7 +183,7 @@ const Calculator = () => {
                     <label className="text-sm font-medium">De</label>
                     <select
                       value={fromCurrency}
-                      onChange={(e) => setFromCurrency(e.target.value)}
+                      onChange={(e) => handleCurrencyChange(e, setFromCurrency)}
                       className="w-full mt-1 p-2 rounded-md border border-input bg-background"
                     >
                       <option value="FCFA">FCFA</option>
@@ -189,7 +196,7 @@ const Calculator = () => {
                     <label className="text-sm font-medium">Vers</label>
                     <select
                       value={toCurrency}
-                      onChange={(e) => setToCurrency(e.target.value)}
+                      onChange={(e) => handleCurrencyChange(e, setToCurrency)}
                       className="w-full mt-1 p-2 rounded-md border border-input bg-background"
                     >
                       <option value="EUR">EUR</option>
