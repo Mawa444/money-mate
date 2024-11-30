@@ -1,13 +1,13 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 import { Calculator as CalculatorIcon, RefreshCcw, History } from "lucide-react";
-import { useState } from "react";
 import { ConversionHistory, ConversionRecord } from "@/components/ConversionHistory";
 import { ConversionResult } from "@/components/ConversionResult";
-
-type CurrencyCode = "FCFA" | "EUR" | "USD";
+import { CalculatorKeypad } from "@/components/calculator/CalculatorKeypad";
+import { CurrencyCode } from "@/types/calculator";
+import { calculateConversion, handleCalculatorInput } from "@/utils/calculatorUtils";
 
 const Calculator = () => {
   const [display, setDisplay] = useState("");
@@ -17,36 +17,41 @@ const Calculator = () => {
   const [convertedAmount, setConvertedAmount] = useState("");
   const [history, setHistory] = useState<ConversionRecord[]>([]);
 
-  const rates: Record<CurrencyCode, Record<CurrencyCode, number>> = {
-    FCFA: { EUR: 0.0015, USD: 0.0017 },
-    EUR: { FCFA: 655.96, USD: 1.09 },
-    USD: { FCFA: 601.80, EUR: 0.92 },
+  const handleNumber = (num: string) => {
+    setDisplay(prev => handleCalculatorInput(prev, num));
+  };
+
+  const handleOperator = (operator: string) => {
+    setDisplay(prev => handleCalculatorInput(prev, operator));
+  };
+
+  const handleCalculate = () => {
+    setDisplay(prev => handleCalculatorInput(prev, "="));
   };
 
   const handleConversion = () => {
-    if (!amount) return;
-
-    const rate = rates[fromCurrency][toCurrency];
-    const result = (parseFloat(amount) * rate).toFixed(2);
+    const result = calculateConversion(amount, fromCurrency, toCurrency);
     setConvertedAmount(result);
 
-    const newRecord: ConversionRecord = {
-      id: Date.now().toString(),
-      fromAmount: amount,
-      fromCurrency,
-      toAmount: result,
-      toCurrency,
-      date: new Date(),
-    };
+    if (result) {
+      const newRecord: ConversionRecord = {
+        id: Date.now().toString(),
+        fromAmount: amount,
+        fromCurrency,
+        toAmount: result,
+        toCurrency,
+        date: new Date(),
+      };
 
-    setHistory(prev => [newRecord, ...prev].slice(0, 10));
+      setHistory(prev => [newRecord, ...prev].slice(0, 10));
+    }
   };
 
   const handleCurrencyChange = (
-    e: React.ChangeEvent<HTMLSelectElement>,
+    value: string,
     setter: (value: CurrencyCode) => void
   ) => {
-    setter(e.target.value as CurrencyCode);
+    setter(value as CurrencyCode);
     setConvertedAmount("");
   };
 
@@ -88,22 +93,11 @@ const Calculator = () => {
                 className="text-right text-xl p-4 h-12 mb-4 bg-background/50 backdrop-blur-sm"
               />
 
-              <div className="grid grid-cols-4 gap-2">
-                {["7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "=", "+"].map((btn) => (
-                  <Button
-                    key={btn}
-                    onClick={() => {
-                      if (btn === "=") handleCalculate();
-                      else if (["+", "-", "*", "/"].includes(btn)) handleOperator(btn);
-                      else handleNumber(btn);
-                    }}
-                    variant={btn === "=" ? "default" : "outline"}
-                    className="h-12 text-lg shadow-sm hover:shadow-md transition-all"
-                  >
-                    {btn}
-                  </Button>
-                ))}
-              </div>
+              <CalculatorKeypad
+                onNumberClick={handleNumber}
+                onOperatorClick={handleOperator}
+                onCalculate={handleCalculate}
+              />
             </div>
           </Card>
         </motion.div>
@@ -143,7 +137,7 @@ const Calculator = () => {
                     <label className="text-sm font-medium">De</label>
                     <select
                       value={fromCurrency}
-                      onChange={(e) => handleCurrencyChange(e, setFromCurrency)}
+                      onChange={(e) => handleCurrencyChange(e.target.value, setFromCurrency)}
                       className="w-full mt-1 p-2 rounded-md border border-input bg-background/50 backdrop-blur-sm"
                     >
                       <option value="FCFA">FCFA</option>
@@ -156,7 +150,7 @@ const Calculator = () => {
                     <label className="text-sm font-medium">Vers</label>
                     <select
                       value={toCurrency}
-                      onChange={(e) => handleCurrencyChange(e, setToCurrency)}
+                      onChange={(e) => handleCurrencyChange(e.target.value, setToCurrency)}
                       className="w-full mt-1 p-2 rounded-md border border-input bg-background/50 backdrop-blur-sm"
                     >
                       <option value="EUR">EUR</option>
