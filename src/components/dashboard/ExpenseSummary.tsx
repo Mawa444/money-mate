@@ -31,7 +31,11 @@ export const ExpenseSummary = ({ categories, totalBudget, totalSpent }: ExpenseS
                   {category.amount.toLocaleString()} / {category.budget.toLocaleString()} FCFA
                 </span>
               </div>
-              <Progress value={percentage} className="h-2" indicatorClassName={category.color} />
+              <Progress 
+                value={percentage} 
+                className="h-2" 
+                className={`h-2 [&>[role=progressbar]]:${category.color}`}
+              />
             </div>
           );
         })}
