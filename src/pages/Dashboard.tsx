@@ -1,6 +1,32 @@
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { PiggyBank, TrendingUp, AlertCircle } from "lucide-react";
+import { SalarySummary } from "@/components/dashboard/SalarySummary";
+import { ExpenseSummary } from "@/components/dashboard/ExpenseSummary";
+import { SavingsGoal } from "@/components/dashboard/SavingsGoal";
+
+// Données temporaires pour la démonstration
+const mockData = {
+  salary: {
+    gross: 500000,
+    deductions: 100000,
+    net: 400000
+  },
+  expenses: {
+    categories: [
+      { name: "Logement", amount: 150000, budget: 200000, color: "bg-blue-500" },
+      { name: "Transport", amount: 50000, budget: 60000, color: "bg-green-500" },
+      { name: "Alimentation", amount: 80000, budget: 100000, color: "bg-yellow-500" },
+      { name: "Loisirs", amount: 30000, budget: 40000, color: "bg-purple-500" }
+    ],
+    totalBudget: 400000,
+    totalSpent: 310000
+  },
+  savings: {
+    current: 1500000,
+    target: 5000000,
+    monthlyContribution: 50000
+  }
+};
 
 const Dashboard = () => {
   return (
@@ -16,78 +42,24 @@ const Dashboard = () => {
         </div>
       </motion.div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <Card className="p-6">
-            <div className="flex items-center space-x-4">
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 bg-primary/20 rounded-full"
-              >
-                <PiggyBank className="h-6 w-6 text-primary" />
-              </motion.div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Économies
-                </p>
-                <h2 className="text-2xl font-bold">30%</h2>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
+      <SalarySummary 
+        grossSalary={mockData.salary.gross}
+        deductions={mockData.salary.deductions}
+        netSalary={mockData.salary.net}
+      />
 
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Card className="p-6">
-            <div className="flex items-center space-x-4">
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 bg-blue-500/20 rounded-full"
-              >
-                <TrendingUp className="h-6 w-6 text-blue-500" />
-              </motion.div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Dépenses
-                </p>
-                <h2 className="text-2xl font-bold">70%</h2>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
+      <div className="grid gap-6 md:grid-cols-2">
+        <ExpenseSummary 
+          categories={mockData.expenses.categories}
+          totalBudget={mockData.expenses.totalBudget}
+          totalSpent={mockData.expenses.totalSpent}
+        />
 
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Card className="p-6">
-            <div className="flex items-center space-x-4">
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 bg-red-500/20 rounded-full"
-              >
-                <AlertCircle className="h-6 w-6 text-red-500" />
-              </motion.div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Alertes
-                </p>
-                <h2 className="text-2xl font-bold">2</h2>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
+        <SavingsGoal 
+          current={mockData.savings.current}
+          target={mockData.savings.target}
+          monthlyContribution={mockData.savings.monthlyContribution}
+        />
       </div>
     </div>
   );
