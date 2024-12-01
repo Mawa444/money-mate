@@ -19,7 +19,7 @@ export const SalarySummary = ({ salary }: SalarySummaryProps) => {
             <Wallet className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <p className="text-sm font-medium text-muted-foreground">Salaire</p>
+            <p className="text-sm font-medium text-muted-foreground">Salaire mensuel</p>
             <h3 className="text-2xl font-bold">{salary.toLocaleString()} FCFA</h3>
           </div>
         </div>

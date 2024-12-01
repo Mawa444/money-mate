@@ -15,12 +15,23 @@ interface Category {
 export const CategoryManager = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [newCategoryName, setNewCategoryName] = useState("");
+  const [newCategoryBudget, setNewCategoryBudget] = useState("");
 
   const addCategory = () => {
-    if (!newCategoryName.trim()) {
+    if (!newCategoryName.trim() || !newCategoryBudget) {
       toast({
         title: "Erreur",
-        description: "Le nom de la catégorie ne peut pas être vide",
+        description: "Veuillez remplir tous les champs",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const budget = Number(newCategoryBudget);
+    if (isNaN(budget) || budget <= 0) {
+      toast({
+        title: "Erreur",
+        description: "Le budget doit être un nombre positif",
         variant: "destructive",
       });
       return;
@@ -29,45 +40,55 @@ export const CategoryManager = () => {
     const newCategory: Category = {
       id: Math.random().toString(36).substring(7),
       name: newCategoryName,
-      budget: 0,
+      budget: budget,
     };
 
     setCategories([...categories, newCategory]);
     setNewCategoryName("");
+    setNewCategoryBudget("");
     toast({
-      title: "Succès",
-      description: "Catégorie ajoutée avec succès",
+      title: "Catégorie ajoutée",
+      description: `${newCategoryName} ajoutée avec un budget de ${budget.toLocaleString()} FCFA`,
     });
   };
 
   const removeCategory = (id: string) => {
     setCategories(categories.filter(cat => cat.id !== id));
     toast({
-      title: "Succès",
-      description: "Catégorie supprimée avec succès",
+      title: "Catégorie supprimée",
+      description: "La catégorie a été supprimée avec succès",
     });
-  };
-
-  const updateBudget = (id: string, budget: number) => {
-    setCategories(categories.map(cat => 
-      cat.id === id ? { ...cat, budget } : cat
-    ));
   };
 
   return (
     <Card className="p-6">
       <h3 className="text-lg font-semibold mb-4">Gestion des Catégories</h3>
       
-      <div className="flex gap-2 mb-4">
-        <Input
-          placeholder="Nouvelle catégorie"
-          value={newCategoryName}
-          onChange={(e) => setNewCategoryName(e.target.value)}
-          className="flex-1"
-        />
-        <Button onClick={addCategory}>
+      <div className="space-y-4 mb-4">
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Nom de la catégorie
+          </label>
+          <Input
+            placeholder="Ex: Loyer, Courses..."
+            value={newCategoryName}
+            onChange={(e) => setNewCategoryName(e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Budget mensuel
+          </label>
+          <Input
+            type="number"
+            placeholder="Montant en FCFA"
+            value={newCategoryBudget}
+            onChange={(e) => setNewCategoryBudget(e.target.value)}
+          />
+        </div>
+        <Button onClick={addCategory} className="w-full">
           <Plus className="h-4 w-4 mr-2" />
-          Ajouter
+          Ajouter la catégorie
         </Button>
       </div>
 
@@ -78,16 +99,14 @@ export const CategoryManager = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="flex items-center gap-2 mb-2"
+            className="flex items-center gap-2 mb-2 p-2 bg-muted rounded-lg"
           >
-            <span className="flex-1">{category.name}</span>
-            <Input
-              type="number"
-              placeholder="Budget"
-              value={category.budget || ""}
-              onChange={(e) => updateBudget(category.id, Number(e.target.value))}
-              className="w-32"
-            />
+            <div className="flex-1">
+              <p className="font-medium">{category.name}</p>
+              <p className="text-sm text-muted-foreground">
+                Budget: {category.budget.toLocaleString()} FCFA
+              </p>
+            </div>
             <Button
               variant="destructive"
               size="icon"
@@ -98,6 +117,12 @@ export const CategoryManager = () => {
           </motion.div>
         ))}
       </AnimatePresence>
+
+      {categories.length === 0 && (
+        <p className="text-center text-muted-foreground py-4">
+          Aucune catégorie ajoutée. Commencez par créer vos catégories de dépenses.
+        </p>
+      )}
     </Card>
   );
 };

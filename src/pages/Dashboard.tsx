@@ -4,28 +4,24 @@ import { SalarySummary } from "@/components/dashboard/SalarySummary";
 import { ExpenseSummary } from "@/components/dashboard/ExpenseSummary";
 import { CategoryManager } from "@/components/dashboard/CategoryManager";
 import { SavingsGoal } from "@/components/dashboard/SavingsGoal";
-
-// Données temporaires pour la démonstration
-const mockData = {
-  salary: 400000,
-  expenses: {
-    categories: [
-      { name: "Logement", amount: 150000, budget: 200000, color: "bg-blue-500" },
-      { name: "Transport", amount: 50000, budget: 60000, color: "bg-green-500" },
-      { name: "Alimentation", amount: 80000, budget: 100000, color: "bg-yellow-500" },
-      { name: "Loisirs", amount: 30000, budget: 40000, color: "bg-purple-500" }
-    ],
-    totalBudget: 400000,
-    totalSpent: 310000
-  },
-  savings: {
-    current: 1500000,
-    target: 5000000,
-    monthlyContribution: 50000
-  }
-};
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 
 const Dashboard = () => {
+  const [salary, setSalary] = useState<number>(0);
+  const [showSalaryInput, setShowSalaryInput] = useState(true);
+
+  const handleSalarySubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setShowSalaryInput(false);
+    toast({
+      title: "Salaire enregistré",
+      description: `Votre salaire de ${salary.toLocaleString()} FCFA a été enregistré.`
+    });
+  };
+
   return (
     <div className="space-y-6">
       <motion.div
@@ -35,26 +31,49 @@ const Dashboard = () => {
       >
         <div>
           <h1 className="text-3xl font-bold">Tableau de bord</h1>
-          <p className="text-muted-foreground">Aperçu de vos finances</p>
+          <p className="text-muted-foreground">Gérez votre budget mensuel</p>
         </div>
       </motion.div>
 
-      <SalarySummary salary={mockData.salary} />
-
-      <div className="grid gap-6 md:grid-cols-2">
-        <CategoryManager />
-        <ExpenseSummary 
-          categories={mockData.expenses.categories}
-          totalBudget={mockData.expenses.totalBudget}
-          totalSpent={mockData.expenses.totalSpent}
-        />
-      </div>
-
-      <SavingsGoal 
-        current={mockData.savings.current}
-        target={mockData.savings.target}
-        monthlyContribution={mockData.savings.monthlyContribution}
-      />
+      {showSalaryInput ? (
+        <Card className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Commencez par renseigner votre salaire</h2>
+          <form onSubmit={handleSalarySubmit} className="space-y-4">
+            <div>
+              <label htmlFor="salary" className="block text-sm font-medium mb-2">
+                Votre salaire mensuel
+              </label>
+              <Input
+                id="salary"
+                type="number"
+                value={salary}
+                onChange={(e) => setSalary(Number(e.target.value))}
+                placeholder="Entrez votre salaire"
+                className="w-full"
+                required
+              />
+            </div>
+            <Button type="submit">Enregistrer le salaire</Button>
+          </form>
+        </Card>
+      ) : (
+        <>
+          <SalarySummary salary={salary} />
+          <div className="grid gap-6 md:grid-cols-2">
+            <CategoryManager />
+            <ExpenseSummary 
+              categories={[]}
+              totalBudget={salary}
+              totalSpent={0}
+            />
+          </div>
+          <SavingsGoal 
+            current={0}
+            target={0}
+            monthlyContribution={0}
+          />
+        </>
+      )}
     </div>
   );
 };
