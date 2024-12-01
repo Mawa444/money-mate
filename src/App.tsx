@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Calculator from "./pages/Calculator";
 import Layout from "./components/Layout";
 import History from "./pages/History";
+import CategoryDetail from "./pages/CategoryDetail";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/profile" element={<Profile />} />
               <Route path="/calculator" element={<Calculator />} />
               <Route path="/history" element={<History />} />
+              <Route path="/category/:categoryId" element={<CategoryDetail />} />
             </Route>
           </Routes>
         </BrowserRouter>
