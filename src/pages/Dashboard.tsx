@@ -29,6 +29,17 @@ const useSalaryStore = create<SalaryStore>()(
   )
 );
 
+const categoryColors = [
+  "bg-blue-500",
+  "bg-green-500",
+  "bg-yellow-500",
+  "bg-purple-500",
+  "bg-pink-500",
+  "bg-indigo-500",
+  "bg-red-500",
+  "bg-orange-500",
+];
+
 const Dashboard = () => {
   const { categories } = useBudgetStore();
   const { salary, setSalary } = useSalaryStore();
@@ -46,6 +57,14 @@ const Dashboard = () => {
 
   const totalSpent = categories.reduce((acc, cat) => acc + cat.spent, 0);
   const remainingBudget = salary - totalSpent;
+
+  // Map categories to ExpenseCategory format
+  const expenseCategories = categories.map((category, index) => ({
+    name: category.name,
+    amount: category.spent,
+    budget: category.budget,
+    color: categoryColors[index % categoryColors.length],
+  }));
 
   return (
     <div className="space-y-6">
@@ -87,15 +106,15 @@ const Dashboard = () => {
           <div className="grid gap-6 md:grid-cols-2">
             <CategoryManager />
             <ExpenseSummary 
-              categories={categories}
+              categories={expenseCategories}
               totalBudget={salary}
               totalSpent={totalSpent}
             />
           </div>
           <SavingsGoal 
             current={remainingBudget}
-            target={salary * 0.2} // Objectif d'épargne de 20% du salaire
-            monthlyContribution={salary * 0.1} // Contribution mensuelle de 10% du salaire
+            target={salary * 0.2}
+            monthlyContribution={salary * 0.1}
           />
         </>
       )}
