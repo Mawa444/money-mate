@@ -11,11 +11,13 @@ import { toast } from "sonner";
 type AddExpenseDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onAddExpense?: (expense: { amount: number; description: string; category: string; date: string }) => void;
 };
 
 export const AddExpenseDialog = ({
   open,
   onOpenChange,
+  onAddExpense,
 }: AddExpenseDialogProps) => {
   const { categories, addTransaction } = useBudgetStore();
   const [amount, setAmount] = useState("");
@@ -47,6 +49,15 @@ export const AddExpenseDialog = ({
       category,
       date: new Date().toISOString(),
     });
+
+    if (onAddExpense) {
+      onAddExpense({
+        amount: transactionAmount,
+        description,
+        category,
+        date: new Date().toISOString(),
+      });
+    }
 
     toast.success("Dépense ajoutée avec succès");
     setAmount("");
