@@ -4,60 +4,34 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { toast } from "@/components/ui/use-toast";
-
-interface Category {
-  id: string;
-  name: string;
-  budget: number;
-}
+import { toast } from "sonner";
+import { useBudgetStore } from "@/store/budgetStore";
 
 export const CategoryManager = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { categories, addCategory, removeCategory } = useBudgetStore();
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryBudget, setNewCategoryBudget] = useState("");
 
-  const addCategory = () => {
+  const handleAddCategory = () => {
     if (!newCategoryName.trim() || !newCategoryBudget) {
-      toast({
-        title: "Erreur",
-        description: "Veuillez remplir tous les champs",
-        variant: "destructive",
-      });
+      toast.error("Veuillez remplir tous les champs");
       return;
     }
 
     const budget = Number(newCategoryBudget);
     if (isNaN(budget) || budget <= 0) {
-      toast({
-        title: "Erreur",
-        description: "Le budget doit être un nombre positif",
-        variant: "destructive",
-      });
+      toast.error("Le budget doit être un nombre positif");
       return;
     }
 
-    const newCategory: Category = {
-      id: Math.random().toString(36).substring(7),
+    addCategory({
       name: newCategoryName,
       budget: budget,
-    };
+    });
 
-    setCategories([...categories, newCategory]);
     setNewCategoryName("");
     setNewCategoryBudget("");
-    toast({
-      title: "Catégorie ajoutée",
-      description: `${newCategoryName} ajoutée avec un budget de ${budget.toLocaleString()} FCFA`,
-    });
-  };
-
-  const removeCategory = (id: string) => {
-    setCategories(categories.filter(cat => cat.id !== id));
-    toast({
-      title: "Catégorie supprimée",
-      description: "La catégorie a été supprimée avec succès",
-    });
+    toast.success(`${newCategoryName} ajoutée avec un budget de ${budget.toLocaleString()} FCFA`);
   };
 
   return (
@@ -86,7 +60,7 @@ export const CategoryManager = () => {
             onChange={(e) => setNewCategoryBudget(e.target.value)}
           />
         </div>
-        <Button onClick={addCategory} className="w-full">
+        <Button onClick={handleAddCategory} className="w-full">
           <Plus className="h-4 w-4 mr-2" />
           Ajouter la catégorie
         </Button>
@@ -104,7 +78,10 @@ export const CategoryManager = () => {
             <div className="flex-1">
               <p className="font-medium">{category.name}</p>
               <p className="text-sm text-muted-foreground">
-                Budget: {category.budget.toLocaleString()} FCFA
+                Budget restant: {(category.budget - category.spent).toLocaleString()} FCFA
+                <span className="block">
+                  ({category.spent.toLocaleString()} FCFA dépensés sur {category.budget.toLocaleString()} FCFA)
+                </span>
               </p>
             </div>
             <Button

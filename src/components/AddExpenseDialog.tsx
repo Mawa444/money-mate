@@ -5,46 +5,50 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import type { Expense } from "@/pages/Index";
-
-const CATEGORIES = [
-  "Logement",
-  "Transport",
-  "Alimentation",
-  "Loisirs",
-  "Factures",
-  "Santé",
-  "Éducation",
-  "Épargne",
-  "Autres",
-];
+import { useBudgetStore } from "@/store/budgetStore";
+import { toast } from "sonner";
 
 type AddExpenseDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onAddExpense: (expense: Omit<Expense, "id">) => void;
 };
 
 export const AddExpenseDialog = ({
   open,
   onOpenChange,
-  onAddExpense,
 }: AddExpenseDialogProps) => {
+  const { categories, addTransaction } = useBudgetStore();
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!amount || !description || !category) return;
+    if (!amount || !description || !category) {
+      toast.error("Veuillez remplir tous les champs");
+      return;
+    }
 
-    onAddExpense({
-      amount: parseFloat(amount),
+    const selectedCategory = categories.find(cat => cat.name === category);
+    if (!selectedCategory) {
+      toast.error("Catégorie invalide");
+      return;
+    }
+
+    const transactionAmount = parseFloat(amount);
+    if (transactionAmount > (selectedCategory.budget - selectedCategory.spent)) {
+      toast.error("Cette dépense dépasse le budget restant pour cette catégorie");
+      return;
+    }
+
+    addTransaction({
+      amount: transactionAmount,
       description,
       category,
       date: new Date().toISOString(),
     });
 
+    toast.success("Dépense ajoutée avec succès");
     setAmount("");
     setDescription("");
     setCategory("");
@@ -95,9 +99,9 @@ export const AddExpenseDialog = ({
                 <SelectValue placeholder="Sélectionnez une catégorie" />
               </SelectTrigger>
               <SelectContent>
-                {CATEGORIES.map((cat) => (
-                  <SelectItem key={cat} value={cat}>
-                    {cat}
+                {categories.map((cat) => (
+                  <SelectItem key={cat.id} value={cat.name}>
+                    {cat.name} ({(cat.budget - cat.spent).toLocaleString()} FCFA restants)
                   </SelectItem>
                 ))}
               </SelectContent>
