@@ -50,8 +50,7 @@ const Dashboard = () => {
     e.preventDefault();
     setShowSalaryInput(false);
     setSalary(salary);
-    toast({
-      title: "Salaire enregistré",
+    toast("Salaire enregistré", {
       description: `Votre salaire de ${salary.toLocaleString()} FCFA a été enregistré.`
     });
   };

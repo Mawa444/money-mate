@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { toast } from "sonner";
 
 export interface Category {
   id: string;
@@ -63,9 +64,9 @@ export const useBudgetStore = create<BudgetStore>()(
             if (cat.name === transaction.category) {
               const newSpent = cat.spent + transaction.amount;
               if (state.spendingLimit > 0 && newSpent > state.spendingLimit) {
-                toast.error(`Attention ! Vous avez dépassé votre limite de dépenses de ${state.spendingLimit.toLocaleString()} FCFA`);
+                toast.error("Attention ! Vous avez dépassé votre limite de dépenses de " + state.spendingLimit.toLocaleString() + " FCFA");
               } else if (state.spendingLimit > 0 && newSpent > state.spendingLimit * 0.9) {
-                toast.warning(`Attention ! Vous approchez de votre limite de dépenses`);
+                toast.warning("Attention ! Vous approchez de votre limite de dépenses");
               }
               return {
                 ...cat,
