@@ -8,19 +8,44 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
+import { useBudgetStore } from "@/store/budgetStore";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+interface SalaryStore {
+  salary: number;
+  setSalary: (amount: number) => void;
+}
+
+const useSalaryStore = create<SalaryStore>()(
+  persist(
+    (set) => ({
+      salary: 0,
+      setSalary: (amount: number) => set({ salary: amount }),
+    }),
+    {
+      name: 'salary-store',
+    }
+  )
+);
 
 const Dashboard = () => {
-  const [salary, setSalary] = useState<number>(0);
-  const [showSalaryInput, setShowSalaryInput] = useState(true);
+  const { categories } = useBudgetStore();
+  const { salary, setSalary } = useSalaryStore();
+  const [showSalaryInput, setShowSalaryInput] = useState(salary === 0);
 
   const handleSalarySubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setShowSalaryInput(false);
+    setSalary(salary);
     toast({
       title: "Salaire enregistré",
       description: `Votre salaire de ${salary.toLocaleString()} FCFA a été enregistré.`
     });
   };
+
+  const totalSpent = categories.reduce((acc, cat) => acc + cat.spent, 0);
+  const remainingBudget = salary - totalSpent;
 
   return (
     <div className="space-y-6">
@@ -62,15 +87,15 @@ const Dashboard = () => {
           <div className="grid gap-6 md:grid-cols-2">
             <CategoryManager />
             <ExpenseSummary 
-              categories={[]}
+              categories={categories}
               totalBudget={salary}
-              totalSpent={0}
+              totalSpent={totalSpent}
             />
           </div>
           <SavingsGoal 
-            current={0}
-            target={0}
-            monthlyContribution={0}
+            current={remainingBudget}
+            target={salary * 0.2} // Objectif d'épargne de 20% du salaire
+            monthlyContribution={salary * 0.1} // Contribution mensuelle de 10% du salaire
           />
         </>
       )}
