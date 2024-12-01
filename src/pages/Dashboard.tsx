@@ -4,10 +4,11 @@ import { SalarySummary } from "@/components/dashboard/SalarySummary";
 import { ExpenseSummary } from "@/components/dashboard/ExpenseSummary";
 import { CategoryManager } from "@/components/dashboard/CategoryManager";
 import { SavingsGoal } from "@/components/dashboard/SavingsGoal";
+import { SpendingLimitManager } from "@/components/dashboard/SpendingLimitManager";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useBudgetStore } from "@/store/budgetStore";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -58,7 +59,6 @@ const Dashboard = () => {
   const totalSpent = categories.reduce((acc, cat) => acc + cat.spent, 0);
   const remainingBudget = salary - totalSpent;
 
-  // Map categories to ExpenseCategory format
   const expenseCategories = categories.map((category, index) => ({
     name: category.name,
     amount: category.spent,
@@ -102,7 +102,10 @@ const Dashboard = () => {
         </Card>
       ) : (
         <>
-          <SalarySummary salary={salary} />
+          <div className="grid gap-6 md:grid-cols-2">
+            <SalarySummary salary={salary} />
+            <SpendingLimitManager />
+          </div>
           <div className="grid gap-6 md:grid-cols-2">
             <CategoryManager />
             <ExpenseSummary 

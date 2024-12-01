@@ -19,10 +19,13 @@ export interface Transaction {
 interface BudgetStore {
   categories: Category[];
   transactions: Transaction[];
+  spendingLimit: number;
+  savingsGoal: number;
   addCategory: (category: Omit<Category, 'id' | 'spent'>) => void;
   removeCategory: (id: string) => void;
   addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
-  removeTransaction: (id: string) => void;
+  setSpendingLimit: (limit: number) => void;
+  setSavingsGoal: (goal: number) => void;
 }
 
 export const useBudgetStore = create<BudgetStore>()(
@@ -30,6 +33,8 @@ export const useBudgetStore = create<BudgetStore>()(
     (set) => ({
       categories: [],
       transactions: [],
+      spendingLimit: 0,
+      savingsGoal: 0,
       addCategory: (category) => {
         set((state) => ({
           categories: [
@@ -56,9 +61,15 @@ export const useBudgetStore = create<BudgetStore>()(
         set((state) => {
           const updatedCategories = state.categories.map((cat) => {
             if (cat.name === transaction.category) {
+              const newSpent = cat.spent + transaction.amount;
+              if (state.spendingLimit > 0 && newSpent > state.spendingLimit) {
+                toast.error(`Attention ! Vous avez dépassé votre limite de dépenses de ${state.spendingLimit.toLocaleString()} FCFA`);
+              } else if (state.spendingLimit > 0 && newSpent > state.spendingLimit * 0.9) {
+                toast.warning(`Attention ! Vous approchez de votre limite de dépenses`);
+              }
               return {
                 ...cat,
-                spent: cat.spent + transaction.amount,
+                spent: newSpent,
               };
             }
             return cat;
@@ -70,27 +81,8 @@ export const useBudgetStore = create<BudgetStore>()(
           };
         });
       },
-      removeTransaction: (id) => {
-        set((state) => {
-          const transaction = state.transactions.find((t) => t.id === id);
-          if (!transaction) return state;
-
-          const updatedCategories = state.categories.map((cat) => {
-            if (cat.name === transaction.category) {
-              return {
-                ...cat,
-                spent: cat.spent - transaction.amount,
-              };
-            }
-            return cat;
-          });
-
-          return {
-            transactions: state.transactions.filter((t) => t.id !== id),
-            categories: updatedCategories,
-          };
-        });
-      },
+      setSpendingLimit: (limit) => set({ spendingLimit: limit }),
+      setSavingsGoal: (goal) => set({ savingsGoal: goal }),
     }),
     {
       name: 'budget-store',
