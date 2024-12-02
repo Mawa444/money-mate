@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, Wallet, Receipt, UserCircle, Calculator, History } from "lucide-react";
-import { ThemeToggle } from "./theme-toggle";
+import { Home, Receipt, UserCircle, Calculator, History } from "lucide-react";
 
 const navItems = [
   { path: "/", icon: Home, label: "Tableau de bord" },
