@@ -3,17 +3,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 import { UserCircle, Save } from "lucide-react";
-import { useState } from "react";
-import { toast } from "@/components/ui/use-toast";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import { useBudgetStore } from "@/store/budgetStore";
 
 const Profile = () => {
+  const { monthlySalary, savingsGoal, setMonthlySalary, setSavingsGoal } = useBudgetStore();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     currency: "FCFA",
-    monthlyIncome: "",
-    savingsGoal: "",
+    monthlyIncome: String(monthlySalary),
+    savingsGoal: String(savingsGoal),
   });
+
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      monthlyIncome: String(monthlySalary),
+      savingsGoal: String(savingsGoal),
+    }));
+  }, [monthlySalary, savingsGoal]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -25,8 +35,9 @@ const Profile = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Profil mis à jour",
+    setMonthlySalary(Number(formData.monthlyIncome));
+    setSavingsGoal(Number(formData.savingsGoal));
+    toast.success("Profil mis à jour", {
       description: "Vos informations ont été enregistrées avec succès",
     });
   };

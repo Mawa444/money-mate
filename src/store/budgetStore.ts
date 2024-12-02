@@ -21,11 +21,13 @@ interface BudgetStore {
   categories: Category[];
   transactions: Transaction[];
   spendingLimit: number;
+  monthlySalary: number;
   savingsGoal: number;
   addCategory: (category: Omit<Category, 'id' | 'spent'>) => void;
   removeCategory: (id: string) => void;
   addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
   setSpendingLimit: (limit: number) => void;
+  setMonthlySalary: (salary: number) => void;
   setSavingsGoal: (goal: number) => void;
 }
 
@@ -35,6 +37,7 @@ export const useBudgetStore = create<BudgetStore>()(
       categories: [],
       transactions: [],
       spendingLimit: 0,
+      monthlySalary: 0,
       savingsGoal: 0,
       addCategory: (category) => {
         set((state) => ({
@@ -64,7 +67,7 @@ export const useBudgetStore = create<BudgetStore>()(
             if (cat.name === transaction.category) {
               const newSpent = cat.spent + transaction.amount;
               if (state.spendingLimit > 0 && newSpent > state.spendingLimit) {
-                toast.error("Attention ! Vous avez dépassé votre limite de dépenses de " + state.spendingLimit.toLocaleString() + " FCFA");
+                toast.error("Attention ! Vous avez dépassé votre limite de dépenses");
               } else if (state.spendingLimit > 0 && newSpent > state.spendingLimit * 0.9) {
                 toast.warning("Attention ! Vous approchez de votre limite de dépenses");
               }
@@ -83,6 +86,7 @@ export const useBudgetStore = create<BudgetStore>()(
         });
       },
       setSpendingLimit: (limit) => set({ spendingLimit: limit }),
+      setMonthlySalary: (salary) => set({ monthlySalary: salary }),
       setSavingsGoal: (goal) => set({ savingsGoal: goal }),
     }),
     {

@@ -3,14 +3,10 @@ import { motion } from "framer-motion";
 import { Wallet } from "lucide-react";
 import { useBudgetStore } from "@/store/budgetStore";
 
-interface SalarySummaryProps {
-  salary: number;
-}
-
-export const SalarySummary = ({ salary }: SalarySummaryProps) => {
-  const { transactions } = useBudgetStore();
+export const SalarySummary = () => {
+  const { transactions, monthlySalary } = useBudgetStore();
   const totalSpent = transactions.reduce((acc, t) => acc + t.amount, 0);
-  const remaining = salary - totalSpent;
+  const remaining = monthlySalary - totalSpent;
 
   return (
     <motion.div
@@ -25,7 +21,7 @@ export const SalarySummary = ({ salary }: SalarySummaryProps) => {
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-muted-foreground">Salaire mensuel</p>
-            <h3 className="text-2xl font-bold">{salary.toLocaleString()} FCFA</h3>
+            <h3 className="text-2xl font-bold">{monthlySalary.toLocaleString()} FCFA</h3>
             <p className="text-sm mt-1">
               <span className={`font-medium ${remaining < 0 ? 'text-destructive' : 'text-green-500'}`}>
                 Restant: {remaining.toLocaleString()} FCFA

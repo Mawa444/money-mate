@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
 
 const tips = [
   "Payez vos charges fixes d'abord : Assurez-vous que le loyer et les factures sont réglés avant de dépenser pour d'autres choses.",
@@ -15,10 +13,15 @@ const tips = [
 ];
 
 export const FinancialTips = () => {
-  const [showTip, setShowTip] = useState(true);
-  const [currentTip] = useState(() => tips[Math.floor(Math.random() * tips.length)]);
+  const [currentTip, setCurrentTip] = useState(() => tips[Math.floor(Math.random() * tips.length)]);
 
-  if (!showTip) return null;
+  const getNewTip = () => {
+    let newTip;
+    do {
+      newTip = tips[Math.floor(Math.random() * tips.length)];
+    } while (newTip === currentTip);
+    setCurrentTip(newTip);
+  };
 
   return (
     <AnimatePresence>
@@ -27,17 +30,10 @@ export const FinancialTips = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         className="mb-6"
+        onClick={getNewTip}
       >
-        <Card className="relative p-4 bg-primary/10">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 right-2"
-            onClick={() => setShowTip(false)}
-          >
-            <X className="h-4 w-4" />
-          </Button>
-          <p className="text-sm text-primary pr-8">{currentTip}</p>
+        <Card className="relative p-4 bg-primary/10 cursor-pointer hover:bg-primary/20 transition-colors">
+          <p className="text-sm text-primary">{currentTip}</p>
         </Card>
       </motion.div>
     </AnimatePresence>
