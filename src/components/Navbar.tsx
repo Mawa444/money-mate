@@ -5,22 +5,20 @@ import { ThemeToggle } from "./theme-toggle";
 
 const navItems = [
   { path: "/", icon: Home, label: "Tableau de bord" },
-  { path: "/budget", icon: Wallet, label: "Budget" },
   { path: "/transactions", icon: Receipt, label: "Transactions" },
   { path: "/history", icon: History, label: "Historique" },
-  { path: "/profile", icon: UserCircle, label: "Profil" },
   { path: "/calculator", icon: Calculator, label: "Calculatrice" },
+  { path: "/profile", icon: UserCircle, label: "Profil" },
 ];
 
 export const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-t border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-primary mr-8">Bzen</span>
+          <div className="flex items-center justify-between w-full">
             {navItems.map(({ path, icon: Icon, label }) => (
               <Link
                 key={path}
@@ -36,7 +34,7 @@ export const Navbar = () => {
                   {location.pathname === path && (
                     <motion.div
                       layoutId="navbar-indicator"
-                      className="absolute -bottom-4 left-0 right-0 h-0.5 bg-primary"
+                      className="absolute -top-1 left-0 right-0 h-0.5 bg-primary"
                       initial={false}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
@@ -46,7 +44,6 @@ export const Navbar = () => {
               </Link>
             ))}
           </div>
-          <ThemeToggle />
         </div>
       </div>
     </nav>
