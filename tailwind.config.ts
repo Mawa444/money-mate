@@ -16,19 +16,13 @@ export default {
         inter: ["Inter", "sans-serif"],
       },
       colors: {
-        // Nouvelles couleurs personnalisées
-        "salary": "#A4C8E1",
-        "spending-limit": "#B2E5D8",
-        "category-manager": "#FCEBB1",
-        "expense-summary": "#FFCCB6",
-        "savings-goal": "#E6D6E6",
-        // Couleurs complémentaires
-        "soft-blue": "#D3E4FD",
-        "soft-green": "#F2FCE2",
-        "soft-yellow": "#FEF7CD",
-        "soft-orange": "#FDE1D3",
-        "soft-purple": "#E5DEFF",
-        // Couleurs système existantes
+        // Nouvelle palette monochrome douce
+        "salary": "#F5F5F5",
+        "spending-limit": "#EBEBEB",
+        "category-manager": "#E0E0E0",
+        "expense-summary": "#D6D6D6",
+        "savings-goal": "#CCCCCC",
+        // Couleurs système
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
