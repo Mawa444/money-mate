@@ -72,12 +72,12 @@ export const CategoryManager = () => {
   };
 
   return (
-    <Card className="p-6">
-      <h3 className="text-lg font-semibold mb-4">Gestion des Catégories</h3>
+    <Card className="p-6 bg-category-manager/40 hover:bg-category-manager/50 transition-colors">
+      <h3 className="text-lg font-semibold mb-4 text-yellow-800">Gestion des Catégories</h3>
       
       <div className="space-y-4 mb-4">
         <div>
-          <label className="block text-sm font-medium mb-2">
+          <label className="block text-sm font-medium mb-2 text-yellow-800">
             Nom de la catégorie
           </label>
           <Input
@@ -87,7 +87,7 @@ export const CategoryManager = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-2">
+          <label className="block text-sm font-medium mb-2 text-yellow-800">
             Budget mensuel
           </label>
           <Input
@@ -97,7 +97,7 @@ export const CategoryManager = () => {
             onChange={(e) => setNewCategoryBudget(e.target.value)}
           />
         </div>
-        <Button onClick={handleAddCategory} className="w-full">
+        <Button onClick={handleAddCategory} className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
           <Plus className="h-4 w-4 mr-2" />
           Ajouter la catégorie
         </Button>
