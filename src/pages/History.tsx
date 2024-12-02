@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
-import { Search, Calendar } from "lucide-react";
+import { Search, Calendar, ArrowUpDown } from "lucide-react";
 import { useState } from "react";
 import { useBudgetStore } from "@/store/budgetStore";
 import {
@@ -12,21 +12,50 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
 const History = () => {
   const { transactions } = useBudgetStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [sortField, setSortField] = useState<"date" | "amount" | "category">("date");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   const filteredTransactions = transactions
-    .filter(t => 
-      (t.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      t.category.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (!startDate || new Date(t.date) >= new Date(startDate)) &&
-      (!endDate || new Date(t.date) <= new Date(endDate))
-    )
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .filter(t => {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        t.description.toLowerCase().includes(searchLower) ||
+        t.category.toLowerCase().includes(searchLower) ||
+        t.amount.toString().includes(searchLower) ||
+        new Date(t.date).toLocaleDateString().includes(searchTerm)
+      );
+    })
+    .filter(t => !startDate || new Date(t.date) >= new Date(startDate))
+    .filter(t => !endDate || new Date(t.date) <= new Date(endDate))
+    .sort((a, b) => {
+      const multiplier = sortOrder === "asc" ? 1 : -1;
+      switch (sortField) {
+        case "date":
+          return (new Date(b.date).getTime() - new Date(a.date).getTime()) * multiplier;
+        case "amount":
+          return (a.amount - b.amount) * multiplier;
+        case "category":
+          return a.category.localeCompare(b.category) * multiplier;
+        default:
+          return 0;
+      }
+    });
+
+  const toggleSort = (field: typeof sortField) => {
+    if (sortField === field) {
+      setSortOrder(prev => prev === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -47,7 +76,7 @@ const History = () => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Rechercher une transaction..."
+                placeholder="Rechercher par description, catégorie, montant..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-9"
@@ -74,10 +103,22 @@ const History = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Date</TableHead>
+                    <TableHead>
+                      <Button variant="ghost" onClick={() => toggleSort("date")} className="flex items-center">
+                        Date <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </Button>
+                    </TableHead>
                     <TableHead>Description</TableHead>
-                    <TableHead>Catégorie</TableHead>
-                    <TableHead className="text-right">Montant</TableHead>
+                    <TableHead>
+                      <Button variant="ghost" onClick={() => toggleSort("category")} className="flex items-center">
+                        Catégorie <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </Button>
+                    </TableHead>
+                    <TableHead className="text-right">
+                      <Button variant="ghost" onClick={() => toggleSort("amount")} className="flex items-center ml-auto">
+                        Montant <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </Button>
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
