@@ -2,7 +2,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useBudgetStore } from "@/store/budgetStore";
@@ -24,7 +23,6 @@ export const AddExpenseDialog = ({
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [popoverOpen, setPopoverOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,39 +105,18 @@ export const AddExpenseDialog = ({
           </div>
           <div className="space-y-2">
             <Label>Catégorie</Label>
-            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  className="w-full justify-between"
-                >
-                  {category || "Sélectionnez une catégorie"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0" align="start">
-                <div className="grid gap-1 p-2">
-                  {categories.map((cat) => (
-                    <Button
-                      key={cat.id}
-                      variant="ghost"
-                      className="w-full justify-start font-normal"
-                      onClick={() => {
-                        setCategory(cat.name);
-                        setPopoverOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={`mr-2 h-4 w-4 ${
-                          category === cat.name ? "opacity-100" : "opacity-0"
-                        }`}
-                      />
-                      {cat.name} ({(cat.budget - cat.spent).toLocaleString()} FCFA restants)
-                    </Button>
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full p-2 rounded-md border border-input bg-background text-foreground focus:border-primary focus:ring-primary"
+            >
+              <option value="">Sélectionnez une catégorie</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.name}>
+                  {cat.name} ({(cat.budget - cat.spent).toLocaleString()} FCFA restants)
+                </option>
+              ))}
+            </select>
           </div>
           <motion.div
             whileHover={{ scale: 1.02 }}

@@ -7,13 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useBudgetStore } from "@/store/budgetStore";
 import { useNavigate } from "react-router-dom";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 export const CategoryManager = () => {
   const navigate = useNavigate();
@@ -111,16 +104,15 @@ export const CategoryManager = () => {
       </div>
 
       <div className="flex gap-2 mb-4">
-        <Select value={sortBy} onValueChange={(value: typeof sortBy) => setSortBy(value)}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Trier par" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="name">Nom</SelectItem>
-            <SelectItem value="budget">Budget</SelectItem>
-            <SelectItem value="spent">Dépenses</SelectItem>
-          </SelectContent>
-        </Select>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as "name" | "budget" | "spent")}
+          className="w-[180px] p-2 rounded-md border border-input bg-background text-foreground focus:border-primary focus:ring-primary"
+        >
+          <option value="name">Nom</option>
+          <option value="budget">Budget</option>
+          <option value="spent">Dépenses</option>
+        </select>
         <Button
           variant="outline"
           onClick={() => setSortOrder(prev => prev === "asc" ? "desc" : "asc")}
