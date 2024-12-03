@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -39,7 +39,6 @@ const tips = [
   "Le jeu des économies de chauffage : Mettez un pull plutôt que d'augmenter le chauffage.",
   "Le concours de la boîte à outils : Apprenez à faire des réparations vous-même.",
   "Le défi du cinéma maison : Créez une expérience cinéma chez vous.",
-  // ... Ajoutez tous les autres conseils de la même manière
 ];
 
 export const FinancialTips = () => {
@@ -64,23 +63,20 @@ export const FinancialTips = () => {
     setCurrentTip(tips[newIndex]);
   };
 
-  // Changer automatiquement le conseil toutes les 30 secondes
-  useEffect(() => {
-    const interval = setInterval(getNewTip, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        className="mb-6"
-        onClick={getNewTip}
+        className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border p-4"
+        style={{ maxWidth: "100%", margin: "0 auto" }}
       >
-        <Card className="relative p-4 bg-primary/10 cursor-pointer hover:bg-primary/20 transition-colors">
-          <p className="text-sm text-primary">{currentTip}</p>
+        <Card 
+          className="relative p-4 bg-background border border-border cursor-pointer hover:bg-muted/50 transition-colors max-w-3xl mx-auto"
+          onClick={getNewTip}
+        >
+          <p className="text-sm text-foreground">{currentTip}</p>
         </Card>
       </motion.div>
     </AnimatePresence>

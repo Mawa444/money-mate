@@ -46,7 +46,7 @@ const Index = () => {
             <ThemeToggle />
             <Button 
               onClick={() => setIsAddExpenseOpen(true)}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg"
+              className="bg-background hover:bg-muted text-foreground border border-border"
             >
               <PlusCircle className="mr-2 h-4 w-4" />
               Ajouter une dépense
@@ -55,67 +55,67 @@ const Index = () => {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          <Card className="p-6 bg-gradient-to-br from-[#F97316] to-[#3B82F6] text-white">
+          <Card className="p-6 bg-background border border-border">
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-white/20 rounded-full">
+              <div className="p-3 bg-muted rounded-full">
                 <Wallet className="h-6 w-6" />
               </div>
               <div>
-                <p className="text-sm font-medium text-white/80">Total Dépenses</p>
-                <h2 className="text-2xl font-bold">{totalExpenses.toFixed(2)} €</h2>
+                <p className="text-sm font-medium text-muted-foreground">Total Dépenses</p>
+                <h2 className="text-2xl font-bold text-foreground">{totalExpenses.toFixed(2)} €</h2>
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white dark:bg-gray-800">
+          <Card className="p-6 bg-background border border-border">
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-[#F2FCE2] dark:bg-[#1A1F2C] rounded-full">
-                <TrendingUp className="h-6 w-6 text-[#6E59A5]" />
+              <div className="p-3 bg-muted rounded-full">
+                <TrendingUp className="h-6 w-6" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Catégories</p>
-                <h2 className="text-2xl font-bold text-[#1A1F2C] dark:text-white">
+                <p className="text-sm font-medium text-muted-foreground">Catégories</p>
+                <h2 className="text-2xl font-bold text-foreground">
                   {new Set(expenses.map(e => e.category)).size}
                 </h2>
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white dark:bg-gray-800">
+          <Card className="p-6 bg-background border border-border">
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-[#E5DEFF] dark:bg-[#1A1F2C] rounded-full">
-                <Receipt className="h-6 w-6 text-[#6E59A5]" />
+              <div className="p-3 bg-muted rounded-full">
+                <Receipt className="h-6 w-6" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Transactions</p>
-                <h2 className="text-2xl font-bold text-[#1A1F2C] dark:text-white">{expenses.length}</h2>
+                <p className="text-sm font-medium text-muted-foreground">Transactions</p>
+                <h2 className="text-2xl font-bold text-foreground">{expenses.length}</h2>
               </div>
             </div>
           </Card>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <Card className="p-6 bg-white dark:bg-gray-800">
-            <h3 className="text-lg font-semibold mb-4 text-[#1A1F2C] dark:text-white">Distribution des dépenses</h3>
+          <Card className="p-6 bg-background border border-border">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">Distribution des dépenses</h3>
             <div className="h-[300px]">
               <ExpenseChart expenses={expenses} />
             </div>
           </Card>
 
-          <Card className="p-6 bg-white dark:bg-gray-800">
-            <h3 className="text-lg font-semibold mb-4 text-[#1A1F2C] dark:text-white">Dépenses récentes</h3>
+          <Card className="p-6 bg-background border border-border">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">Dépenses récentes</h3>
             <div className="space-y-4">
               {expenses.slice(-5).reverse().map((expense) => (
-                <div key={expense.id} className="flex items-center justify-between p-4 bg-[#F6F6F7] dark:bg-gray-700 rounded-lg hover:bg-[#E5DEFF] dark:hover:bg-gray-600 transition-colors">
+                <div key={expense.id} className="flex items-center justify-between p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors">
                   <div>
-                    <p className="font-medium text-[#1A1F2C] dark:text-white">{expense.description}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{expense.category}</p>
+                    <p className="font-medium text-foreground">{expense.description}</p>
+                    <p className="text-sm text-muted-foreground">{expense.category}</p>
                   </div>
-                  <p className="font-semibold text-[#6E59A5] dark:text-[#9b87f5]">{expense.amount.toFixed(2)} €</p>
+                  <p className="font-semibold text-foreground">{expense.amount.toFixed(2)} €</p>
                 </div>
               ))}
               {expenses.length === 0 && (
-                <p className="text-center text-gray-500 dark:text-gray-400 py-8">Aucune dépense pour le moment</p>
+                <p className="text-center text-muted-foreground py-8">Aucune dépense pour le moment</p>
               )}
             </div>
           </Card>
