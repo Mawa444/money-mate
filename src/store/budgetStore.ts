@@ -17,15 +17,27 @@ export interface Transaction {
   date: string;
 }
 
+export interface PaymentReminder {
+  id: string;
+  description: string;
+  amount: number;
+  dueDate: string;
+  completed: boolean;
+}
+
 interface BudgetStore {
   categories: Category[];
   transactions: Transaction[];
+  reminders: PaymentReminder[];
   spendingLimit: number;
   monthlySalary: number;
   savingsGoal: number;
   addCategory: (category: Omit<Category, 'id' | 'spent'>) => void;
   removeCategory: (id: string) => void;
   addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
+  addReminder: (reminder: PaymentReminder) => void;
+  toggleReminderComplete: (id: string) => void;
+  removeReminder: (id: string) => void;
   setSpendingLimit: (limit: number) => void;
   setMonthlySalary: (salary: number) => void;
   setSavingsGoal: (goal: number) => void;
@@ -36,6 +48,7 @@ export const useBudgetStore = create<BudgetStore>()(
     (set) => ({
       categories: [],
       transactions: [],
+      reminders: [],
       spendingLimit: 0,
       monthlySalary: 0,
       savingsGoal: 0,
@@ -84,6 +97,25 @@ export const useBudgetStore = create<BudgetStore>()(
             categories: updatedCategories,
           };
         });
+      },
+      addReminder: (reminder) => {
+        set((state) => ({
+          reminders: [...state.reminders, reminder],
+        }));
+      },
+      toggleReminderComplete: (id) => {
+        set((state) => ({
+          reminders: state.reminders.map((reminder) =>
+            reminder.id === id
+              ? { ...reminder, completed: !reminder.completed }
+              : reminder
+          ),
+        }));
+      },
+      removeReminder: (id) => {
+        set((state) => ({
+          reminders: state.reminders.filter((reminder) => reminder.id !== id),
+        }));
       },
       setSpendingLimit: (limit) => set({ spendingLimit: limit }),
       setMonthlySalary: (salary) => set({ monthlySalary: salary }),

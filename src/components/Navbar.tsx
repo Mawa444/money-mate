@@ -1,48 +1,55 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, Receipt, UserCircle, Calculator, History } from "lucide-react";
-
-const navItems = [
-  { path: "/", icon: Home, label: "Tableau de bord" },
-  { path: "/transactions", icon: Receipt, label: "Transactions" },
-  { path: "/history", icon: History, label: "Historique" },
-  { path: "/calculator", icon: Calculator, label: "Calculatrice" },
-  { path: "/profile", icon: UserCircle, label: "Profil" },
-];
+import {
+  Home,
+  Receipt,
+  User,
+  Calculator,
+  History,
+  FileText,
+} from "lucide-react";
 
 export const Navbar = () => {
   const location = useLocation();
 
+  const links = [
+    { to: "/", icon: Home, label: "Accueil" },
+    { to: "/transactions", icon: Receipt, label: "Transactions" },
+    { to: "/reports", icon: FileText, label: "Rapports" },
+    { to: "/calculator", icon: Calculator, label: "Calculatrice" },
+    { to: "/history", icon: History, label: "Historique" },
+    { to: "/profile", icon: User, label: "Profil" },
+  ];
+
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-t border-border">
+    <nav className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-sm border-t border-border z-50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center justify-between w-full">
-            {navItems.map(({ path, icon: Icon, label }) => (
+        <div className="flex justify-between items-center py-2">
+          {links.map(({ to, icon: Icon, label }) => {
+            const isActive = location.pathname === to;
+            return (
               <Link
-                key={path}
-                to={path}
-                className="relative flex flex-col items-center text-sm px-3 py-2 rounded-md hover:bg-accent"
+                key={to}
+                to={to}
+                className="relative flex flex-col items-center p-2 text-muted-foreground hover:text-foreground transition-colors"
               >
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="relative"
-                >
-                  <Icon className="h-5 w-5" />
-                  {location.pathname === path && (
-                    <motion.div
-                      layoutId="navbar-indicator"
-                      className="absolute -top-1 left-0 right-0 h-0.5 bg-primary"
-                      initial={false}
-                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                    />
-                  )}
-                </motion.div>
-                <span className="mt-1 text-xs">{label}</span>
+                <Icon className="h-6 w-6" />
+                <span className="text-xs mt-1">{label}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="navbar-indicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground"
+                    initial={false}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 30,
+                    }}
+                  />
+                )}
               </Link>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
     </nav>
