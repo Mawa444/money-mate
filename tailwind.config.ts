@@ -16,12 +16,12 @@ export default {
         inter: ["Inter", "sans-serif"],
       },
       colors: {
-        // Nouvelle palette monochrome douce
-        "salary": "#F5F5F5",
-        "spending-limit": "#EBEBEB",
-        "category-manager": "#E0E0E0",
-        "expense-summary": "#D6D6D6",
-        "savings-goal": "#CCCCCC",
+        // Nouvelle palette harmonisée
+        "page-background": "hsl(var(--background))",
+        "card-background": "hsl(var(--card))",
+        "primary-text": "hsl(var(--foreground))",
+        "secondary-text": "hsl(var(--muted-foreground))",
+        "border-color": "hsl(var(--border))",
         // Couleurs système
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

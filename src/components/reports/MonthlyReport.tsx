@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, TrendingUp } from "lucide-react";
+import { FileText, Download } from "lucide-react";
 import { useBudgetStore } from "@/store/budgetStore";
 import { format, startOfMonth, endOfMonth } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -13,6 +13,7 @@ import {
   Legend,
   Tooltip,
 } from "recharts";
+import { DatePicker } from "@/components/ui/date-picker";
 
 const COLORS = ["#A3A3A3", "#858585", "#666666", "#474747", "#292929"];
 
@@ -42,7 +43,7 @@ export const MonthlyReport = () => {
   };
 
   return (
-    <Card className="p-6 bg-background">
+    <Card className="p-6 bg-card">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
           <div className="p-3 bg-muted rounded-full">
