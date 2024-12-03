@@ -61,23 +61,25 @@
   }
 }
 
-/* Styles uniformisés pour les calendriers */
-.rdp {
-  @apply bg-card border border-border rounded-lg shadow-sm p-4;
-}
+@layer components {
+  /* Styles uniformisés pour les calendriers */
+  .rdp {
+    @apply bg-background border border-border rounded-lg shadow-sm p-4;
+  }
 
-.rdp-button {
-  @apply hover:bg-muted focus:bg-muted rounded-md transition-colors;
-}
+  .rdp-button {
+    @apply hover:bg-muted focus:bg-muted rounded-md transition-colors;
+  }
 
-.rdp-day_selected {
-  @apply bg-primary text-primary-foreground hover:bg-primary/90;
-}
+  .rdp-day_selected {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
 
-.rdp-day_today {
-  @apply font-bold border border-primary/20;
-}
+  .rdp-day_today {
+    @apply font-bold border border-primary/20;
+  }
 
-.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
-  @apply bg-muted;
+  .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+    @apply bg-muted;
+  }
 }
