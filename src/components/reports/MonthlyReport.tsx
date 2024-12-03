@@ -4,6 +4,7 @@ import { FileText, Download, TrendingUp } from "lucide-react";
 import { useBudgetStore } from "@/store/budgetStore";
 import { format, startOfMonth, endOfMonth } from "date-fns";
 import { fr } from "date-fns/locale";
+import { toast } from "sonner";
 import {
   PieChart,
   Pie,
