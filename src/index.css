@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
+    --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -25,7 +25,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
-    --radius: 0.75rem;
+    --radius: 1rem;
   }
 
   .dark {
@@ -62,9 +62,13 @@
 }
 
 @layer components {
+  .card-gradient {
+    @apply bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-sm border shadow-sm;
+  }
+
   /* Styles uniformisés pour les calendriers */
   .rdp {
-    @apply bg-background border border-border rounded-lg shadow-sm p-4;
+    @apply bg-background/80 backdrop-blur-sm border border-border rounded-lg shadow-sm p-4;
   }
 
   .rdp-button {

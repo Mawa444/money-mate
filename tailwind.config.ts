@@ -16,13 +16,6 @@ export default {
         inter: ["Inter", "sans-serif"],
       },
       colors: {
-        // Nouvelle palette harmonisée
-        "page-background": "hsl(var(--background))",
-        "card-background": "hsl(var(--card))",
-        "primary-text": "hsl(var(--foreground))",
-        "secondary-text": "hsl(var(--muted-foreground))",
-        "border-color": "hsl(var(--border))",
-        // Couleurs système
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -57,6 +50,11 @@ export default {
       },
       animation: {
         "fade-in": "fade-in 0.3s ease-out",
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
     },
   },
