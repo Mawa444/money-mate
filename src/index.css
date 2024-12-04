@@ -67,11 +67,11 @@
 
 @layer components {
   .card-gradient {
-    @apply bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-sm border border-border/50 shadow-lg;
+    @apply bg-gradient-to-br from-background/90 to-background/60 backdrop-blur-sm border border-border/50 shadow-lg;
   }
 
   .glass-panel {
-    @apply bg-card/80 backdrop-blur-sm border border-border/50 shadow-lg;
+    @apply bg-background/80 backdrop-blur-sm border border-border/50 shadow-lg;
   }
 
   .success-amount {
