@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useBudgetStore } from "@/store/budgetStore";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface SalaryStore {
   salary: number;
@@ -76,6 +77,7 @@ const Dashboard = () => {
           <h1 className="text-3xl font-bold text-foreground">Tableau de bord</h1>
           <p className="text-muted-foreground">Gérez votre budget mensuel</p>
         </div>
+        <ThemeToggle />
       </motion.div>
 
       {showSalaryInput ? (
@@ -92,7 +94,7 @@ const Dashboard = () => {
                 value={salary}
                 onChange={(e) => setSalary(Number(e.target.value))}
                 placeholder="Entrez votre salaire"
-                className="w-full bg-background border-border"
+                className="w-full"
                 required
               />
             </div>
