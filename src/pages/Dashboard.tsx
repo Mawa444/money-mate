@@ -31,14 +31,14 @@ const useSalaryStore = create<SalaryStore>()(
 );
 
 const categoryColors = [
-  "bg-blue-500",
-  "bg-green-500",
-  "bg-yellow-500",
-  "bg-purple-500",
-  "bg-pink-500",
-  "bg-indigo-500",
-  "bg-red-500",
-  "bg-orange-500",
+  "bg-primary",
+  "bg-success",
+  "bg-destructive",
+  "bg-accent",
+  "bg-muted",
+  "bg-secondary",
+  "bg-primary/80",
+  "bg-success/80",
 ];
 
 const Dashboard = () => {
@@ -73,17 +73,17 @@ const Dashboard = () => {
         className="flex justify-between items-center"
       >
         <div>
-          <h1 className="text-3xl font-bold">Tableau de bord</h1>
+          <h1 className="text-3xl font-bold text-foreground">Tableau de bord</h1>
           <p className="text-muted-foreground">Gérez votre budget mensuel</p>
         </div>
       </motion.div>
 
       {showSalaryInput ? (
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Commencez par renseigner votre salaire</h2>
+        <Card className="p-6 glass-panel">
+          <h2 className="text-xl font-semibold mb-4 text-foreground">Commencez par renseigner votre salaire</h2>
           <form onSubmit={handleSalarySubmit} className="space-y-4">
             <div>
-              <label htmlFor="salary" className="block text-sm font-medium mb-2">
+              <label htmlFor="salary" className="block text-sm font-medium mb-2 text-foreground">
                 Votre salaire mensuel
               </label>
               <Input
@@ -92,11 +92,11 @@ const Dashboard = () => {
                 value={salary}
                 onChange={(e) => setSalary(Number(e.target.value))}
                 placeholder="Entrez votre salaire"
-                className="w-full"
+                className="w-full bg-background border-border"
                 required
               />
             </div>
-            <Button type="submit">Enregistrer le salaire</Button>
+            <Button type="submit" className="w-full">Enregistrer le salaire</Button>
           </form>
         </Card>
       ) : (
