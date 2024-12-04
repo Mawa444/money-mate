@@ -72,12 +72,12 @@ export const CategoryManager = () => {
   };
 
   return (
-    <Card className="p-6 bg-category-manager/40 hover:bg-category-manager/50 transition-colors">
-      <h3 className="text-lg font-semibold mb-4 text-yellow-800">Gestion des Catégories</h3>
+    <Card className="p-6 glass-panel">
+      <h3 className="text-lg font-semibold mb-4 text-foreground">Gestion des Catégories</h3>
       
       <div className="space-y-4 mb-4">
         <div>
-          <label className="block text-sm font-medium mb-2 text-yellow-800">
+          <label className="block text-sm font-medium mb-2 text-foreground">
             Nom de la catégorie
           </label>
           <Input
@@ -87,7 +87,7 @@ export const CategoryManager = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-2 text-yellow-800">
+          <label className="block text-sm font-medium mb-2 text-foreground">
             Budget mensuel
           </label>
           <Input
@@ -97,7 +97,7 @@ export const CategoryManager = () => {
             onChange={(e) => setNewCategoryBudget(e.target.value)}
           />
         </div>
-        <Button onClick={handleAddCategory} className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+        <Button onClick={handleAddCategory} className="w-full">
           <Plus className="h-4 w-4 mr-2" />
           Ajouter la catégorie
         </Button>
@@ -130,12 +130,12 @@ export const CategoryManager = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="flex items-center gap-2 mb-2 p-2 bg-muted rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
+              className="flex items-center gap-2 mb-2 p-2 bg-muted rounded-lg hover:bg-accent/10 transition-colors cursor-pointer"
               onClick={() => navigate(`/category/${category.id}`)}
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <p className="font-medium">{category.name}</p>
+                  <p className="font-medium text-foreground">{category.name}</p>
                   {status && (
                     <div className="flex items-center gap-1">
                       {status.icon}
@@ -182,6 +182,10 @@ export const CategoryManager = () => {
           Aucune catégorie ajoutée. Commencez par créer vos catégories de dépenses.
         </p>
       )}
+
+      <div className="mt-8 text-center text-xs text-muted-foreground">
+        Développé avec ❤️ par pide
+      </div>
     </Card>
   );
 };

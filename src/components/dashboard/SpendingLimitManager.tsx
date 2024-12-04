@@ -21,14 +21,14 @@ export const SpendingLimitManager = () => {
   };
 
   return (
-    <Card className="p-6 bg-spending-limit/40 hover:bg-spending-limit/50 transition-colors">
+    <Card className="p-6 glass-panel">
       <div className="flex items-center space-x-4 mb-4">
-        <div className="p-3 bg-spending-limit rounded-full">
-          <AlertCircle className="h-6 w-6 text-green-600" />
+        <div className="p-3 bg-primary/20 rounded-full">
+          <AlertCircle className="h-6 w-6 text-primary" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-green-800">Limite de Dépenses</h3>
-          <p className="text-sm text-green-700">
+          <h3 className="text-lg font-semibold text-foreground">Limite de Dépenses</h3>
+          <p className="text-sm text-muted-foreground">
             Définissez une limite pour vos dépenses mensuelles
           </p>
         </div>
@@ -36,7 +36,7 @@ export const SpendingLimitManager = () => {
 
       <div className="space-y-4">
         <div>
-          <label className="text-sm font-medium text-green-800">Montant limite</label>
+          <label className="text-sm font-medium text-foreground">Montant limite</label>
           <Input
             type="number"
             value={newLimit}
@@ -45,14 +45,14 @@ export const SpendingLimitManager = () => {
             className="mt-1"
           />
         </div>
-        <Button onClick={handleSetLimit} className="w-full bg-green-600 hover:bg-green-700">
+        <Button onClick={handleSetLimit} className="w-full">
           Définir la limite
         </Button>
       </div>
 
       {spendingLimit > 0 && (
-        <div className="mt-4 p-4 bg-spending-limit/30 rounded-lg">
-          <p className="text-sm text-green-800">
+        <div className="mt-4 p-4 bg-muted rounded-lg">
+          <p className="text-sm text-foreground">
             Limite actuelle : {spendingLimit.toLocaleString()} FCFA
           </p>
         </div>
