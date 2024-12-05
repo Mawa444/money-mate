@@ -28,7 +28,6 @@ export const MonthlyReport = () => {
   const { transactions, categories, monthlySalary } = useBudgetStore();
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // Générer les 12 derniers mois pour le sélecteur
   const last12Months = Array.from({ length: 12 }, (_, i) => {
     const date = subMonths(new Date(), i);
     return {
@@ -60,7 +59,7 @@ export const MonthlyReport = () => {
 
   return (
     <Card className="p-6 bg-card">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:items-center md:justify-between mb-6">
         <div className="flex items-center space-x-4">
           <div className="p-3 bg-muted rounded-full">
             <FileText className="h-6 w-6" />
@@ -72,12 +71,12 @@ export const MonthlyReport = () => {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4">
           <Select
             value={selectedDate.toISOString()}
             onValueChange={(value) => setSelectedDate(new Date(value))}
           >
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger className="w-full md:w-[200px]">
               <SelectValue placeholder="Sélectionner un mois" />
             </SelectTrigger>
             <SelectContent>
@@ -88,7 +87,7 @@ export const MonthlyReport = () => {
               ))}
             </SelectContent>
           </Select>
-          <Button onClick={handleDownloadReport} variant="outline">
+          <Button onClick={handleDownloadReport} variant="outline" className="w-full md:w-auto">
             <Download className="h-4 w-4 mr-2" />
             Télécharger
           </Button>

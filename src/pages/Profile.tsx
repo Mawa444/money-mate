@@ -15,6 +15,7 @@ const Profile = () => {
     currency: "FCFA",
     monthlyIncome: String(monthlySalary),
     savingsGoal: String(savingsGoal),
+    savingsTarget: "0", // Nouveau champ
   });
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const Profile = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setMonthlySalary(Number(formData.monthlyIncome));
-    setSavingsGoal(Number(formData.savingsGoal));
+    setSavingsGoal(Number(formData.savingsTarget));
     toast.success("Profil mis à jour", {
       description: "Vos informations ont été enregistrées avec succès",
     });
@@ -125,8 +126,8 @@ const Profile = () => {
                 />
               </div>
 
-              <div className="space-y-2 md:col-span-2">
-                <label className="text-sm font-medium">Objectif d'épargne (%)</label>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Objectif d'épargne mensuel (%)</label>
                 <Input
                   name="savingsGoal"
                   type="number"
@@ -136,6 +137,20 @@ const Profile = () => {
                 />
                 <p className="text-sm text-muted-foreground">
                   Pourcentage de votre revenu que vous souhaitez épargner
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Objectif d'épargne total (FCFA)</label>
+                <Input
+                  name="savingsTarget"
+                  type="number"
+                  value={formData.savingsTarget}
+                  onChange={handleChange}
+                  placeholder="Ex: 1000000"
+                />
+                <p className="text-sm text-muted-foreground">
+                  Montant total que vous souhaitez épargner
                 </p>
               </div>
             </div>

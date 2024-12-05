@@ -15,6 +15,7 @@ export interface Transaction {
   description: string;
   category: string;
   date: string;
+  timestamp: string; // Ajout de l'horodatage
 }
 
 export interface PaymentReminder {
@@ -72,6 +73,7 @@ export const useBudgetStore = create<BudgetStore>()(
       addTransaction: (transaction) => {
         const newTransaction = {
           id: Math.random().toString(36).substring(7),
+          timestamp: new Date().toISOString(), // Ajout de l'horodatage
           ...transaction,
         };
         

@@ -2,15 +2,13 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
 import { Target } from "lucide-react";
+import { useBudgetStore } from "@/store/budgetStore";
 
-interface SavingsGoalProps {
-  current: number;
-  target: number;
-  monthlyContribution: number;
-}
-
-export const SavingsGoal = ({ current, target, monthlyContribution }: SavingsGoalProps) => {
-  const progress = (current / target) * 100;
+export const SavingsGoal = () => {
+  const { monthlySalary, savingsGoal } = useBudgetStore();
+  const targetAmount = (monthlySalary * savingsGoal) / 100;
+  const currentSavings = monthlySalary * 0.1; // À adapter selon votre logique de calcul des économies réelles
+  const progress = (currentSavings / targetAmount) * 100;
 
   return (
     <Card className="p-6 glass-panel">
@@ -27,11 +25,11 @@ export const SavingsGoal = ({ current, target, monthlyContribution }: SavingsGoa
       </div>
       <Progress value={progress} className="h-4" />
       <div className="mt-4 flex justify-between">
-        <span className="text-foreground">{current.toLocaleString()} FCFA</span>
-        <span className="text-foreground">{target.toLocaleString()} FCFA</span>
+        <span className="text-foreground">{currentSavings.toLocaleString()} FCFA</span>
+        <span className="text-foreground">{targetAmount.toLocaleString()} FCFA</span>
       </div>
       <p className="text-sm text-muted-foreground mt-2">
-        Contribution mensuelle: {monthlyContribution.toLocaleString()} FCFA
+        Objectif mensuel: {savingsGoal}% de votre revenu
       </p>
     </Card>
   );
