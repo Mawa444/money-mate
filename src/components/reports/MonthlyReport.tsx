@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Download } from "lucide-react";
 import { useBudgetStore } from "@/store/budgetStore";
-import { format, startOfMonth, endOfMonth } from "date-fns";
+import { format, startOfMonth, endOfMonth, subMonths } from "date-fns";
 import { fr } from "date-fns/locale";
 import { toast } from "sonner";
 import {
@@ -13,15 +13,32 @@ import {
   Legend,
   Tooltip,
 } from "recharts";
-import { DatePicker } from "@/components/ui/date-picker";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
 
 const COLORS = ["#A3A3A3", "#858585", "#666666", "#474747", "#292929"];
 
 export const MonthlyReport = () => {
   const { transactions, categories, monthlySalary } = useBudgetStore();
-  const currentDate = new Date();
-  const monthStart = startOfMonth(currentDate);
-  const monthEnd = endOfMonth(currentDate);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  // Générer les 12 derniers mois pour le sélecteur
+  const last12Months = Array.from({ length: 12 }, (_, i) => {
+    const date = subMonths(new Date(), i);
+    return {
+      value: date.toISOString(),
+      label: format(date, 'MMMM yyyy', { locale: fr }),
+    };
+  });
+
+  const monthStart = startOfMonth(selectedDate);
+  const monthEnd = endOfMonth(selectedDate);
 
   const monthlyTransactions = transactions.filter(
     (t) => new Date(t.date) >= monthStart && new Date(t.date) <= monthEnd
@@ -38,8 +55,7 @@ export const MonthlyReport = () => {
   }));
 
   const handleDownloadReport = () => {
-    // Cette fonction pourrait être implémentée pour générer un PDF ou un fichier Excel
-    toast.success("Téléchargement du rapport en cours...");
+    toast.success(`Téléchargement du rapport pour ${format(selectedDate, 'MMMM yyyy', { locale: fr })}...`);
   };
 
   return (
@@ -50,18 +66,33 @@ export const MonthlyReport = () => {
             <FileText className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold">
-              Rapport Mensuel - {format(currentDate, "MMMM yyyy", { locale: fr })}
-            </h3>
+            <h3 className="text-lg font-semibold">Rapport Mensuel</h3>
             <p className="text-sm text-muted-foreground">
               Aperçu de vos finances du mois
             </p>
           </div>
         </div>
-        <Button onClick={handleDownloadReport} variant="outline">
-          <Download className="h-4 w-4 mr-2" />
-          Télécharger
-        </Button>
+        <div className="flex items-center gap-4">
+          <Select
+            value={selectedDate.toISOString()}
+            onValueChange={(value) => setSelectedDate(new Date(value))}
+          >
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Sélectionner un mois" />
+            </SelectTrigger>
+            <SelectContent>
+              {last12Months.map((month) => (
+                <SelectItem key={month.value} value={month.value}>
+                  {month.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button onClick={handleDownloadReport} variant="outline">
+            <Download className="h-4 w-4 mr-2" />
+            Télécharger
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
