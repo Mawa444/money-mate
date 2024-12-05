@@ -115,11 +115,7 @@ const Dashboard = () => {
               totalSpent={totalSpent}
             />
           </div>
-          <SavingsGoal 
-            current={remainingBudget}
-            target={salary * 0.2}
-            monthlyContribution={salary * 0.1}
-          />
+          <SavingsGoal />
         </>
       )}
     </div>

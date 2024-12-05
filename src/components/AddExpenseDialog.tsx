@@ -43,11 +43,13 @@ export const AddExpenseDialog = ({
       return;
     }
 
+    const now = new Date().toISOString();
     addTransaction({
       amount: transactionAmount,
       description,
       category,
-      date: new Date().toISOString(),
+      date: now,
+      timestamp: now
     });
 
     if (onAddExpense) {
@@ -55,7 +57,7 @@ export const AddExpenseDialog = ({
         amount: transactionAmount,
         description,
         category,
-        date: new Date().toISOString(),
+        date: now,
       });
     }
 
