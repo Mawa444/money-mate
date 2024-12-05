@@ -10,10 +10,10 @@ const Layout = () => {
         <ThemeToggle />
       </div>
       <FinancialTips />
-      <main className="container mx-auto p-4 mt-32 pb-24 flex-grow">
+      <main className="container mx-auto p-4 mt-32 flex-grow">
         <Outlet />
       </main>
-      <footer className="text-center py-4 text-sm text-muted-foreground border-t border-border">
+      <footer className="text-center py-4 text-sm text-muted-foreground border-t border-border mb-20">
         Développé avec ❤️ par ODD
       </footer>
       <Navbar />

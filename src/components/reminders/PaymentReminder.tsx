@@ -11,10 +11,11 @@ import { useBudgetStore } from "@/store/budgetStore";
 export const PaymentReminder = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const { addReminder, reminders } = useBudgetStore();
 
   const handleAddReminder = () => {
-    if (!description || !amount) {
+    if (!description || !amount || !dueDate) {
       toast.error("Veuillez remplir tous les champs");
       return;
     }
@@ -23,13 +24,14 @@ export const PaymentReminder = () => {
       id: Math.random().toString(36).substr(2, 9),
       description,
       amount: parseFloat(amount),
-      dueDate: new Date().toISOString(), // Date actuelle par défaut
+      dueDate: new Date(dueDate).toISOString(),
       completed: false,
     });
 
     toast.success("Rappel de paiement ajouté");
     setDescription("");
     setAmount("");
+    setDueDate("");
   };
 
   return (
@@ -63,6 +65,16 @@ export const PaymentReminder = () => {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="Montant en FCFA"
+          />
+        </div>
+
+        <div>
+          <label className="text-sm font-medium">Date d'échéance</label>
+          <Input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            className="w-full"
           />
         </div>
 
