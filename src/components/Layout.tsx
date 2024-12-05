@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./Navbar";
-import { FinancialTips } from "./FinancialTips";
+import FinancialTips from "./FinancialTips";
 import { ThemeToggle } from "./theme-toggle";
 
 const Layout = () => {
