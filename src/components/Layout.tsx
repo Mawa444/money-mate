@@ -11,9 +11,11 @@ const Layout = () => {
       </div>
       <FinancialTips />
       <main className="container mx-auto p-4 mt-32 flex-grow">
-        <Outlet />
+        <div className="rounded-lg border border-border/50 bg-card shadow-lg p-6">
+          <Outlet />
+        </div>
       </main>
-      <footer className="text-center py-4 text-sm text-muted-foreground border-t border-border mb-20">
+      <footer className="text-center py-4 text-sm text-muted-foreground border-t border-border mt-8 mb-20">
         Développé avec ❤️ par ODD
       </footer>
       <Navbar />

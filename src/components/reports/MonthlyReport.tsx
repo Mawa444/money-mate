@@ -72,21 +72,12 @@ export const MonthlyReport = () => {
           </div>
         </div>
         <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4">
-          <Select
-            value={selectedDate.toISOString()}
-            onValueChange={(value) => setSelectedDate(new Date(value))}
-          >
-            <SelectTrigger className="w-full md:w-[200px]">
-              <SelectValue placeholder="Sélectionner un mois" />
-            </SelectTrigger>
-            <SelectContent>
-              {last12Months.map((month) => (
-                <SelectItem key={month.value} value={month.value}>
-                  {month.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <input
+            type="date"
+            value={format(selectedDate, 'yyyy-MM-dd')}
+            onChange={(e) => setSelectedDate(new Date(e.target.value))}
+            className="w-full md:w-[200px] px-3 py-2 border rounded-md bg-background text-foreground"
+          />
           <Button onClick={handleDownloadReport} variant="outline" className="w-full md:w-auto">
             <Download className="h-4 w-4 mr-2" />
             Télécharger

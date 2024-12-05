@@ -15,8 +15,10 @@ const Profile = () => {
     currency: "FCFA",
     monthlyIncome: String(monthlySalary),
     savingsGoal: String(savingsGoal),
-    savingsTarget: "0", // Nouveau champ
+    savingsTarget: "0",
   });
+
+  const calculatedSavings = (Number(formData.monthlyIncome) * Number(formData.savingsGoal)) / 100;
 
   useEffect(() => {
     setFormData(prev => ({
@@ -30,14 +32,18 @@ const Profile = () => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
+      savingsTarget: name === "savingsGoal" || name === "monthlyIncome" 
+        ? String((Number(name === "monthlyIncome" ? value : formData.monthlyIncome) * 
+           Number(name === "savingsGoal" ? value : formData.savingsGoal)) / 100)
+        : prev.savingsTarget
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setMonthlySalary(Number(formData.monthlyIncome));
-    setSavingsGoal(Number(formData.savingsTarget));
+    setSavingsGoal(Number(formData.savingsGoal));
     toast.success("Profil mis à jour", {
       description: "Vos informations ont été enregistrées avec succès",
     });
@@ -134,9 +140,11 @@ const Profile = () => {
                   value={formData.savingsGoal}
                   onChange={handleChange}
                   placeholder="Ex: 30"
+                  min="0"
+                  max="100"
                 />
                 <p className="text-sm text-muted-foreground">
-                  Pourcentage de votre revenu que vous souhaitez épargner
+                  {calculatedSavings.toLocaleString()} FCFA par mois
                 </p>
               </div>
 
