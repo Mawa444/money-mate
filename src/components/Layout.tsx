@@ -9,7 +9,9 @@ const Layout = () => {
       <div className="fixed top-0 right-0 p-4 z-50">
         <ThemeToggle />
       </div>
-      <FinancialTips />
+      <div className="fixed top-0 left-0 right-0 z-40">
+        <FinancialTips />
+      </div>
       <main className="container mx-auto p-4 mt-32 flex-grow">
         <div className="rounded-lg border border-border/50 bg-card shadow-lg p-6">
           <Outlet />

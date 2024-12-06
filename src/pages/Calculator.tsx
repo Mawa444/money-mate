@@ -52,6 +52,10 @@ const Calculator = () => {
     setConversionHistory(prev => [newRecord, ...prev].slice(0, 10));
   };
 
+  const clearHistory = () => {
+    setHistory([]);
+  };
+
   return (
     <div className="space-y-6 p-4 md:p-6">
       <motion.div
@@ -68,15 +72,24 @@ const Calculator = () => {
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="p-6 backdrop-blur-sm bg-background/95 shadow-lg">
           <div className="space-y-4">
-            <div className="flex items-center space-x-4 mb-4">
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 bg-primary/20 rounded-full"
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-4">
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="p-3 bg-primary/20 rounded-full"
+                >
+                  <CalculatorIcon className="h-6 w-6 text-primary" />
+                </motion.div>
+                <h3 className="text-lg font-semibold">Calculatrice Scientifique</h3>
+              </div>
+              <Button
+                variant="outline"
+                onClick={clearHistory}
+                className="text-sm"
               >
-                <CalculatorIcon className="h-6 w-6 text-primary" />
-              </motion.div>
-              <h3 className="text-lg font-semibold">Calculatrice Scientifique</h3>
+                Effacer l'historique
+              </Button>
             </div>
 
             <Input

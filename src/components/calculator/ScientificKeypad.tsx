@@ -36,13 +36,13 @@ export const ScientificKeypad = ({
           variant="destructive"
           className="col-span-2"
         >
-          Clear
+          Effacer
         </Button>
         <Button
           onClick={onUndo}
           variant="secondary"
         >
-          Undo
+          Annuler
         </Button>
       </div>
       
