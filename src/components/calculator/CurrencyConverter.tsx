@@ -2,16 +2,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ConversionResult } from "@/components/ConversionResult";
-import { CurrencyCode } from "@/types/calculator";
+import { CurrencyCode, ConversionRecord } from "@/types/calculator";
 import { calculateConversion } from "@/utils/calculatorUtils";
 
 interface CurrencyConverterProps {
-  onConversion: (record: {
-    fromAmount: string;
-    fromCurrency: CurrencyCode;
-    toAmount: string;
-    toCurrency: CurrencyCode;
-  }) => void;
+  onConversion: (record: ConversionRecord) => void;
 }
 
 export const CurrencyConverter = ({ onConversion }: CurrencyConverterProps) => {
@@ -30,6 +25,8 @@ export const CurrencyConverter = ({ onConversion }: CurrencyConverterProps) => {
 
     if (result) {
       onConversion({
+        id: crypto.randomUUID(),
+        date: new Date(),
         fromAmount: amount,
         fromCurrency,
         toAmount: result,
