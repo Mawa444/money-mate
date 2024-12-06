@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { ConversionResult } from "@/components/ConversionResult";
 import { CurrencyCode, ConversionRecord } from "@/types/calculator";
 import { calculateConversion } from "@/utils/calculatorUtils";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface CurrencyConverterProps {
   onConversion: (record: ConversionRecord) => void;
@@ -33,6 +34,8 @@ export const CurrencyConverter = ({ onConversion }: CurrencyConverterProps) => {
   const [toCurrency, setToCurrency] = useState<CurrencyCode>("EUR");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
+  const [openFromDialog, setOpenFromDialog] = useState(false);
+  const [openToDialog, setOpenToDialog] = useState(false);
 
   const handleConversion = () => {
     const result = calculateConversion(amount, fromCurrency, toCurrency);
@@ -48,6 +51,10 @@ export const CurrencyConverter = ({ onConversion }: CurrencyConverterProps) => {
         toCurrency,
       });
     }
+  };
+
+  const getCurrencyName = (code: CurrencyCode) => {
+    return CURRENCIES.find(c => c.code === code)?.name || code;
   };
 
   return (
@@ -66,34 +73,62 @@ export const CurrencyConverter = ({ onConversion }: CurrencyConverterProps) => {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="text-sm font-medium">De</label>
-          <Select value={fromCurrency} onValueChange={(value: CurrencyCode) => setFromCurrency(value)}>
-            <SelectTrigger className="w-full mt-1">
-              <SelectValue placeholder="Sélectionnez une devise" />
-            </SelectTrigger>
-            <SelectContent>
-              {CURRENCIES.map((currency) => (
-                <SelectItem key={currency.code} value={currency.code}>
-                  {currency.name} ({currency.code})
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Dialog open={openFromDialog} onOpenChange={setOpenFromDialog}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="w-full mt-1 justify-between">
+                {fromCurrency} - {getCurrencyName(fromCurrency)}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-[350px]">
+              <ScrollArea className="h-[400px]">
+                <div className="grid gap-1">
+                  {CURRENCIES.map((currency) => (
+                    <Button
+                      key={currency.code}
+                      variant="ghost"
+                      className="w-full justify-start font-normal"
+                      onClick={() => {
+                        setFromCurrency(currency.code);
+                        setOpenFromDialog(false);
+                      }}
+                    >
+                      {currency.code} - {currency.name}
+                    </Button>
+                  ))}
+                </div>
+              </ScrollArea>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <div>
           <label className="text-sm font-medium">Vers</label>
-          <Select value={toCurrency} onValueChange={(value: CurrencyCode) => setToCurrency(value)}>
-            <SelectTrigger className="w-full mt-1">
-              <SelectValue placeholder="Sélectionnez une devise" />
-            </SelectTrigger>
-            <SelectContent>
-              {CURRENCIES.map((currency) => (
-                <SelectItem key={currency.code} value={currency.code}>
-                  {currency.name} ({currency.code})
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Dialog open={openToDialog} onOpenChange={setOpenToDialog}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="w-full mt-1 justify-between">
+                {toCurrency} - {getCurrencyName(toCurrency)}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-[350px]">
+              <ScrollArea className="h-[400px]">
+                <div className="grid gap-1">
+                  {CURRENCIES.map((currency) => (
+                    <Button
+                      key={currency.code}
+                      variant="ghost"
+                      className="w-full justify-start font-normal"
+                      onClick={() => {
+                        setToCurrency(currency.code);
+                        setOpenToDialog(false);
+                      }}
+                    >
+                      {currency.code} - {currency.name}
+                    </Button>
+                  ))}
+                </div>
+              </ScrollArea>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
