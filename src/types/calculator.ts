@@ -1,4 +1,19 @@
-export type CurrencyCode = "FCFA" | "EUR" | "USD";
+export type CurrencyCode = 
+  | "FCFA" 
+  | "EUR" 
+  | "USD" 
+  | "GBP" 
+  | "JPY" 
+  | "CNY" 
+  | "AUD" 
+  | "CAD" 
+  | "CHF" 
+  | "INR" 
+  | "BRL" 
+  | "RUB" 
+  | "ZAR" 
+  | "NGN" 
+  | "GHS";
 
 export interface ConversionRates {
   [key: string]: Record<CurrencyCode, number>;
