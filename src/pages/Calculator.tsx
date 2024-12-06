@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Calculator as CalculatorIcon, RefreshCcw, History } from "lucide-react";
 import { ConversionHistory, ConversionRecord } from "@/components/ConversionHistory";
