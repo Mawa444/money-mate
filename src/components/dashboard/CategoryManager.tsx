@@ -182,10 +182,6 @@ export const CategoryManager = () => {
           Aucune catégorie ajoutée. Commencez par créer vos catégories de dépenses.
         </p>
       )}
-
-      <div className="mt-8 text-center text-xs text-muted-foreground">
-        Développé avec ❤️ par pide
-      </div>
     </Card>
   );
 };
