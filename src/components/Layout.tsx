@@ -18,7 +18,7 @@ const Layout = () => {
         </div>
       </main>
       <footer className="text-center py-4 text-sm text-muted-foreground border-t border-border mt-8 mb-20">
-        Développé avec ❤️
+        Développé avec ❤️ par ODD
       </footer>
       <Navbar />
     </div>
